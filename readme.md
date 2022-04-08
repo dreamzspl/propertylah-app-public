@@ -9,10 +9,11 @@ This is a clone app of PropertyGuru.
 ### Screens
 
 The app uses Drawer as the primary navigation structure and the following screens are registered:
-AuthScreen (Daniel)
-PropertiesScreen (Xin Kai)
-QnAScreen (Poh Liang and Tino)
-ArticlesScreen (Melissa)
+
+1. AuthScreen (Daniel)
+1. PropertiesScreen (Xin Kai)
+1. QnAScreen (Poh Liang and Tino)
+1. ArticlesScreen (Melissa)
 
 You may nest stack navigators as needed in your own folders.
 
