@@ -1,0 +1,80 @@
+import { StyleSheet, Dimensions } from "react-native"; 
+import { styles } from "../../styles/common";
+
+
+const windowWidth = Dimensions.get('window').width;
+
+export default StyleSheet.create({  
+    imageContainer:{
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1.25,
+    },
+    image:{
+        width: windowWidth-styles.container.paddingHorizontal*2,
+        height: '100%',
+        resizeMode: 'contain'
+    },
+    horizontal:{
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: 'flex-end',
+    },
+    detailsFont:{
+        fontSize: 14,
+    },
+    textPadding:{
+        paddingRight: 10,
+    },
+    fontBig:{
+        fontSize: 24,
+        paddingRight: 10,
+    },
+    fontSmall:{
+        fontSize: 14,
+        paddingRight: 10,
+    },
+    borderBottomWidth:{
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+    },
+    borderNoTop:{
+        borderBottomWidth: 1,
+        paddingVertical: 10,
+        width: '100%'
+    },
+    widthHalf:{
+        width: '50%',
+    },  
+    width13:{
+        width: '33%',
+    },  
+    contactButton:{
+        width: '90%',
+        alignSelf: 'center',
+        fontSize: 15,
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    contactButtonSpecificProperty:{
+        width: '90%',
+        alignSelf: 'center',
+        fontSize: 13,
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    justifyContainerMid:{
+        display: 'flex',
+        flexDirection: "row",
+        width: '100%',
+        padding: 10,
+    },
+    textContainer:{
+        paddingHorizontal: 10,
+    },
+});
+
