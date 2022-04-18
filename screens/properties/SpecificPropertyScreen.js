@@ -46,17 +46,17 @@ function SpecificPropertiesScreen({route}) {
                         <Text style={customStyles.detailsFont}>Listed</Text>
                     </View>
                     <View style={[customStyles.widthHalf, customStyles.textContainer]}> 
-                        <Text style={customStyles.details}>{data.propertyType}</Text>
-                        <Text style={customStyles.details}>{data.floorsize} sqft</Text>
-                        <Text style={customStyles.details}>{data.TOPYear}</Text>
-                        <Text style={customStyles.details}>Move-in Date</Text>
-                        <Text style={customStyles.details}>{data.saleType}</Text>
-                        <Text style={customStyles.details}>Furnishing</Text>
-                        <Text style={customStyles.details}>{data.tenure}</Text>
-                        <Text style={customStyles.details}>Developer</Text>
-                        <Text style={customStyles.details}>{data.propertyType}</Text>
-                        <Text style={customStyles.details}>{data.id}</Text>
-                        <Text style={customStyles.details}>{date}</Text>
+                        <Text style={customStyles.detailsFont}>{data.propertyType}</Text>
+                        <Text style={customStyles.detailsFont}>{data.floorsize} sqft</Text>
+                        <Text style={customStyles.detailsFont}>{data.TOPYear}</Text>
+                        <Text style={customStyles.detailsFont}>Move-in Date</Text>
+                        <Text style={customStyles.detailsFont}>{data.saleType}</Text>
+                        <Text style={customStyles.detailsFont}>Furnishing</Text>
+                        <Text style={customStyles.detailsFont}>{data.tenure}</Text>
+                        <Text style={customStyles.detailsFont}>Developer</Text>
+                        <Text style={customStyles.detailsFont}>{data.propertyType}</Text>
+                        <Text style={customStyles.detailsFont}>{data.id}</Text>
+                        <Text style={customStyles.detailsFont}>{date}</Text>
                     </View>
                 </View>
             </View>
