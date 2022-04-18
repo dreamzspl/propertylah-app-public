@@ -19,6 +19,8 @@ import Colors from "./constants/colors";
 
 const Drawer = createDrawerNavigator();
 
+// guest stack, member stack, agent stack?
+// use stack navigator for sign up /login
 export default function App() {
   const [fontsLoaded] = useFonts({
     inter: require("./assets/fonts/Inter-Regular.ttf"),

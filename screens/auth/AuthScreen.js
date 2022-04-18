@@ -1,17 +1,22 @@
-import { View, Text, StyleSheet } from "react-native";
+import { useState } from "react";
 
-import { styles, textStyles } from "../../styles/common";
-import Colors from "../../constants/colors";
+import SignupScreen from "./SignupScreen";
+import LoginScreen from "./LoginScreen";
 
 function AuthScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={textStyles.headerText}>Authentication Screen</Text>
-      <Text style={textStyles.bodyText}>Lorem ipsum</Text>
-    </View>
-  );
+  const [authScreen, setAuthScreen] = useState("signup");
+
+  function chooseScreenHandler(screen) {
+    setAuthScreen(screen);
+  }
+
+  let chosenScreen;
+  if (authScreen === "signup")
+    chosenScreen = <SignupScreen onChoose={chooseScreenHandler} />;
+  else if (authScreen === "login")
+    chosenScreen = <LoginScreen onChoose={chooseScreenHandler} />;
+
+  return <>{chosenScreen}</>;
 }
 
 export default AuthScreen;
-
-const customStyles = StyleSheet.create({});

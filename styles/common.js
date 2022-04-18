@@ -6,7 +6,7 @@ import Colors from "../constants/colors";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 40,
+    paddingVertical: 20,
     paddingHorizontal: 32,
   },
 });
@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
 export const textStyles = StyleSheet.create({
   headerText: {
     fontFamily: "rubik-bold",
-    fontSize: 24,
-    marginBottom: 10,
+    fontSize: 28,
+    marginBottom: 20,
     color: Colors.primary500,
   },
   bodyText: {
@@ -24,16 +24,25 @@ export const textStyles = StyleSheet.create({
     fontFamily: "rubik",
     color: Colors.grey500,
   },
+  linkText: {
+    fontSize: 18,
+    fontFamily: "rubik",
+    color: Colors.primary500,
+    textDecorationStyle: "dashed",
+  },
 });
 
 // Helper Styles
-export const helper = StyleSheet.create({
+export const helperStyles = StyleSheet.create({
   shadow: {
     elevation: 4,
     shadowColor: "black",
     shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+  },
+  mb20: {
+    marginBottom: 20,
   },
 });
 
