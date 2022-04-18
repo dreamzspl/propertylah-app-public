@@ -4,7 +4,10 @@ import { styles } from "../../styles/common";
 
 const windowWidth = Dimensions.get('window').width;
 
-export default StyleSheet.create({  
+const customStyles = StyleSheet.create({  
+    backgroundColor:{
+        backgroundColor: 'white'
+    },
     imageContainer:{
         width: '100%',
         height: undefined,
@@ -76,5 +79,36 @@ export default StyleSheet.create({
     textContainer:{
         paddingHorizontal: 10,
     },
+    bold:{
+        fontWeight: 'bold'
+    },
+    filterPageFont:{
+        fontSize: 18,
+    },
+    resultButton:{
+        marginTop: 20,
+        width: '90%',
+        alignSelf: 'center',
+        fontSize: 15,
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    filterHorizontalContainer:{
+        display:'flex',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+    },
+    list:{
+        width: (windowWidth-styles.container.paddingHorizontal*2)/2,
+    },
+    inputText:{
+        width: (windowWidth-styles.container.paddingHorizontal*2)/2,
+        height: 70,
+    }
 });
 
+export default customStyles

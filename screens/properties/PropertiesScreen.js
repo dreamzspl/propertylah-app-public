@@ -4,20 +4,35 @@ import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../../constants/colors";
 import { createStackNavigator } from "@react-navigation/stack";
 import SpecificPropertiesScreen from "./SpecificPropertyScreen";
+import { useNavigation } from '@react-navigation/native';
 import API from './API.js'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import customStyles from "./propertyStyles.js";
+import Filter from "./Filter.js";
+import { Button } from 'react-native-paper';
+import PropertyCRUD from "./PropertyCRUD.js";
+
 //todo agent details
+//todo filter
+//todo searchbar
 
-const PropertyHome = ({navigation})=>{
-
+const PropertyHome = ({navigation, route})=>{
   const [content, setContent]=useState([]);
 
-  (async()=>{
+  if(route.params === undefined){
+    
+  } else {
+    // console.log('filter render')
+    setContent(route.params.filtered)
+    route.params = undefined; //* have to do this otherwise route.params always defined from filter and get infinite loop
+  }
+
+  useEffect(async()=>{
     const incoming = await API.get('/properties');
     const properties = incoming.data.data;
+    // console.log('1st render')
     setContent(properties);
-  })();
+  },[]);
 
   return(
     <ScrollView >
@@ -51,7 +66,7 @@ const PropertyHome = ({navigation})=>{
                   </View>
                   <View style={[customStyles.borderNoTop, customStyles.textContainer]}>
                     <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Agent memo</Text>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.User.firstName}{obj.User.lastName}</Text>
+                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.User.firstName} {obj.User.lastName}</Text>
                     <View style={[customStyles.justifyContainerMid]}>
                       <Pressable style={[customStyles.widthHalf]}><Text style={[textStyles.bodyText, customStyles.contactButton]}>Whatsapp</Text></Pressable>
                       <Pressable style={[customStyles.widthHalf]}><Text style={[textStyles.bodyText, customStyles.contactButton]}>Call</Text></Pressable>
@@ -65,29 +80,48 @@ const PropertyHome = ({navigation})=>{
   )
 };
 
-const FilterButtons = ()=>{
+function FilterButton(){
+  const navigation = useNavigation();
   return(
-    <Text>filter buttons</Text>
+    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('Filter')}>Filter</Button>
   )
 }
 
+function PropertyCRUDButton(){
+  const navigation = useNavigation();
+  return(
+    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('PropertyCRUD')}>Add Property</Button>
+  )
+}
 
-function PropertiesScreen() {
+function PropertiesScreen(){
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator>
       <Stack.Screen 
         name='Home' 
-        component={PropertyHome} 
+        component={PropertyHome}
         options={{
-          headerTitle: (props)=><FilterButtons {...props}></FilterButtons>,
-          headerTitleAlign: 'center'
+          headerTitle: (props)=><View style={customStyles.horizontal}><FilterButton {...props}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
+          headerTitleAlign: 'center',
+          headerTitleStyle: 'true',
         }}></Stack.Screen>
       <Stack.Screen
         name='SpecificProperty'
         component={SpecificPropertiesScreen}
-        options={({ route }) => ({ title: null, headerTitleAlign: 'center'})}
+        options={{headerShown: true}}
+      ></Stack.Screen>
+      <Stack.Screen
+        name='Filter'
+        component={Filter}
+        options={{headerShown: false}}
+      ></Stack.Screen>
+      <Stack.Screen
+        name='PropertyCRUD'
+        component={PropertyCRUD}
+        options={{headerShown: false}}
+        // options={({ route }) => ({ title: null, headerTitleAlign: 'center'})} //* keep in case need to adjust header
       ></Stack.Screen>
     </Stack.Navigator>
   );
