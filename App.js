@@ -7,6 +7,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+
 // Screens
 import AuthScreen from "./screens/auth/AuthScreen";
 import HomeScreen from "./screens/home/HomeScreen";
@@ -19,8 +21,17 @@ import Colors from "./constants/colors";
 
 const Drawer = createDrawerNavigator();
 
-// guest stack, member stack, agent stack?
-// use stack navigator for sign up /login
+function GuestStack() {
+  // stack navigator
+  // first screen - drawer - just a different drawer?
+}
+function MemberStack() {}
+function AgentStack() {}
+
+function Navigation() {
+  return <NavigationContainer></NavigationContainer>;
+}
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     inter: require("./assets/fonts/Inter-Regular.ttf"),
@@ -34,64 +45,66 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Drawer.Navigator
-          screenOptions={drawerScreenOptions}
-          initialRouteName="Home"
-        >
-          <Drawer.Screen
-            name="Auth"
-            component={AuthScreen}
-            options={{
-              title: "Sign up or Log in",
-              drawerIcon: ({ color, size }) => (
-                <Ionicons color={color} size={size} name="key-outline" />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              title: "Home",
-              drawerIcon: ({ color, size }) => (
-                <Ionicons color={color} size={size} name="list" />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Properties"
-            component={PropertiesScreen}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Ionicons color={color} size={size} name="home-outline" />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Q & A"
-            component={QnAScreen}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Ionicons color={color} size={size} name="people" />
-              ),
-            }}
-          />
-          <Drawer.Screen
-            name="Articles"
-            component={ArticlesScreen}
-            options={{
-              drawerIcon: ({ color, size }) => (
-                <Ionicons
-                  color={color}
-                  size={size}
-                  name="md-newspaper-outline"
-                />
-              ),
-            }}
-          />
-        </Drawer.Navigator>
-      </NavigationContainer>
+      <AuthContextProvider>
+        <NavigationContainer>
+          <Drawer.Navigator
+            screenOptions={drawerScreenOptions}
+            initialRouteName="Home"
+          >
+            <Drawer.Screen
+              name="Auth"
+              component={AuthScreen}
+              options={{
+                title: "Sign up or Log in",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="key-outline" />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{
+                title: "Home",
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="list" />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Properties"
+              component={PropertiesScreen}
+              options={{
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="home-outline" />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Q & A"
+              component={QnAScreen}
+              options={{
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="people" />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="Articles"
+              component={ArticlesScreen}
+              options={{
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons
+                    color={color}
+                    size={size}
+                    name="md-newspaper-outline"
+                  />
+                ),
+              }}
+            />
+          </Drawer.Navigator>
+        </NavigationContainer>
+      </AuthContextProvider>
     </>
   );
 }

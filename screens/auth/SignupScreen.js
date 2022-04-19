@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -6,22 +6,51 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { styles, textStyles, helperStyles } from "../../styles/common";
 import Colors from "../../constants/colors";
 import FormButton from "../../components/UI/FormButton";
+import { signupUser } from "../../utils/auth";
+
+const initValues = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+};
 
 function SignupScreen({ onChoose }) {
-  const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [inputs, setInputs] = useState(initValues);
 
-  function formValuesHandler(value) {
-    // to update form value
-    console.log(value);
+  function resetFormHandler() {
+    setInputs(initValues);
   }
 
-  function signUpBtnHandler() {
-    console.log("sign up");
+  function inputHandler(field, value) {
+    setInputs((prevInputs) => {
+      return {
+        ...prevInputs,
+        [field]: value,
+      };
+    });
+  }
+
+  async function signUpBtnHandler() {
+    // validate inputs
+    if (
+      inputs.firstName.length === 0 ||
+      inputs.lastName.length === 0 ||
+      inputs.password.length === 0
+    )
+      return Alert.alert("Validation Error", "Fields cannot be empty!");
+
+    // sign up
+    try {
+      const token = await signupUser(inputs);
+      console.log("token", token);
+      // resetFormHandler();
+      // store token in context
+      Alert.alert("Sign Up Success!", "Logging you in");
+    } catch (error) {
+      Alert.alert("Sign Up Error!", error.message);
+    }
   }
 
   function loginLinkHandler() {
@@ -50,7 +79,9 @@ function SignupScreen({ onChoose }) {
             style={customStyles.inputText}
             placeholder="Enter your first name"
             autoCorrect={false}
-            onChangeText={formValuesHandler}
+            onChangeText={(text) => inputHandler("firstName", text)}
+            name="firstName"
+            value={inputs.firstName || ""}
           />
         </View>
         <Text style={customStyles.labelText}>Last Name</Text>
@@ -59,6 +90,9 @@ function SignupScreen({ onChoose }) {
             style={customStyles.inputText}
             placeholder="Enter your last name"
             autoCorrect={false}
+            onChangeText={(text) => inputHandler("lastName", text)}
+            name="lastName"
+            value={inputs.lastName || ""}
           />
         </View>
         <Text style={customStyles.labelText}>Email</Text>
@@ -68,6 +102,9 @@ function SignupScreen({ onChoose }) {
             placeholder="Enter your email"
             autoCapitalize="none"
             autoCorrect={false}
+            onChangeText={(text) => inputHandler("email", text)}
+            name="email"
+            value={inputs.email || ""}
           />
         </View>
         <Text style={customStyles.labelText}>Password</Text>
@@ -76,10 +113,13 @@ function SignupScreen({ onChoose }) {
             style={customStyles.inputText}
             placeholder="Enter your password"
             secureTextEntry={true}
+            onChangeText={(text) => inputHandler("password", text)}
+            name="password"
+            value={inputs.password || ""}
           />
         </View>
         <View style={customStyles.buttonsContainer}>
-          <FormButton>Reset</FormButton>
+          <FormButton onPress={resetFormHandler}>Reset</FormButton>
           <FormButton onPress={signUpBtnHandler}>Sign Up</FormButton>
         </View>
       </KeyboardAwareScrollView>
