@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import QnAHome from "./QnAHome";
 import ListTopicQns from "./QnAListTopicQns";
+import QnAQnsAnswer from "./QnAQnsAnswer";
 
 const Stack = createStackNavigator();
 
@@ -14,7 +15,8 @@ const QnAScreen = () => {
         {/* insert this within <Stack.Navigator> above to hide the header ---> screenOptions={{ headerShown: false }} */}
         <Stack.Screen name="QnAHome" component={QnAHome} />
         <Stack.Screen name="ListTopicQns" component={ListTopicQns} />
-      </Stack.Navigator>
+        <Stack.Screen name="QnAQnsAnswer" component={QnAQnsAnswer} />
+      </Stack.Navigator> 
   )
 }
 
