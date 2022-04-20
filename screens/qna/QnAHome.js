@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Alert, ImageBackground, View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import { Alert, ImageBackground, View, Text, Pressable, StyleSheet, ScrollView, TextInput } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from "react-hook-form";
 import { styles, textStyles } from "../../styles/common";
 import { Ionicons } from "@expo/vector-icons";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import QuestionForm from "./QuestionForm";
 import TopicCard from "../../components/UI/TopicCard";
 import PrimaryButton from "../../components/UI/PrimaryButton";
 import ModalPopUp from "../../components/UI/ModalPopUp";
 import CustomInput from "../../components/UI/CustomInput";
+import Input from "../../components/UI/Input";
+import Dropdown from "../../components/UI/Dropdown";
 
-import { APIQns, APIAns } from "./API";
 import customStyles from "./QnAStyles";
 
 export default function QnAHome() { 
@@ -21,7 +23,7 @@ export default function QnAHome() {
   // Topic cards function
   const onTopicPressed = async () => {
     navigation.navigate("ListTopicQns");
-    console.warn("Topic pressed.");
+    // console.warn("Topic pressed.");
   }
 
   // 'Ask question' button function
@@ -35,27 +37,30 @@ export default function QnAHome() {
     } catch (e) {
       Alert.alert("Oops", e.message);
     }
-    console.warn("'Ask Your Question' button pressed");
+    // console.warn("'Ask Your Question' button pressed");
     setLoading(false);
   }
 
   // create form values
-  const { control, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: {
-      question: '',
-      topic: '',
-      projName: '',
-      displayName: '',
-    }
-  });
+  // const { control, handleSubmit, formState: { errors } } = useForm({
+  //   defaultValues: {
+  //     question: '',
+  //     topic: '',
+  //     email: '',
+  //     projName: '',
+  //     displayName: '',
+  //   }
+  // });
   // const onSubmit = data => console.log(data);
 
   // 'Submit' button function
-  const onSubmitBtnPressed = (data) => {
-    console.log(data);
-    setIsModalVisible(false);
-    console.warn("'Submit' button pressed");
-  }
+  // const onSubmitBtnPressed = (data) => {
+  //   console.log(data);
+  //   setIsModalVisible(false);
+  //   console.warn("'Submit' button pressed");
+  // }
+
+  // Close button to close modal
   const handleClose = () => setIsModalVisible(false);
 
   const navigation = useNavigation();
@@ -87,18 +92,11 @@ export default function QnAHome() {
           <View style={customStyles.formContainer}>
             <Text style={[textStyles.headerText, { flexWrap: "wrap" }]}>Ask Your Question</Text>
             <Text style={[textStyles.bodyText, { marginVertical: 10 }]}>Our PropertyLah experts will answer you within 24 hours! 😎</Text>
-            <View>
-              <CustomInput label="Question" name="question" control={control} rules={{required: 'Please ask a question 😊'}} placeholder="Start with 'How', 'What', 'Where', 'Why', etc" numberOfLines={5} />
+    
+            <QuestionForm />
+            {/* <PrimaryButton text="Submit" onPress={handleSubmit(onSubmitBtnPressed)} /> */}
 
-              <CustomInput label="Your email" name="email" control={control} rules={{required: 'Please provide a valid email address.'}} placeholder="email@example.com" numberOfLines={1} />
 
-              <CustomInput label="Project Name" name="projName" control={control} placeholder="8 Riversuites" numberOfLines={1} />
-
-              <CustomInput label="Your name" name="displayName" control={control} placeholder="e.g. Jason Teo" numberOfLines={1} />
-
-              <PrimaryButton text="Submit" onPress={handleSubmit(onSubmitBtnPressed)} />
-
-            </View>
           </View>
         </ModalPopUp>
 
