@@ -1,5 +1,5 @@
 
-import { View, Text ,ScrollView, StyleSheet, Alert, Pressable} from 'react-native'
+import { View, Text ,ScrollView, StyleSheet, Alert, Pressable, Modal, TouchableWithoutFeedback , Keyboard} from 'react-native'
 import PrimaryButton from '../../components/UI/PrimaryButton'
 import ModalPopUp from "../../components/UI/ModalPopUp";
 import React, { useState } from "react";
@@ -9,6 +9,9 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from '@react-navigation/native';
 import { styles, textStyles } from "../../styles/common";
 import customStyles from "./QnAStyles";
+import { MaterialIcons } from '@expo/vector-icons' 
+import AnswerForm from './AnswerForm';
+import FlatButton from '../../components/UI/FlatButton';
 
 const AnswerHeader = () => {
     return (
@@ -51,7 +54,6 @@ const AnswerList = ({name, date , answerInput}) => {
 
 
 
-
 const QnAQnsAnswer = () => {
     const [ loading, setLoading ] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -89,7 +91,11 @@ const QnAQnsAnswer = () => {
     console.warn("'Submit' button pressed");
   }
 
-
+    const [modalOpen, setModalOpen] = useState(false);
+    const addAnswer = (answer) => {
+        answer.key = Math.random().toString();
+        setModalOpen(false);
+    }
   return (
     <ScrollView>
           <AnswerHeader />
@@ -129,7 +135,28 @@ const QnAQnsAnswer = () => {
 
             </View>
           </View>
-        </ModalPopUp>
+          </ModalPopUp>
+          
+        <View style={customstyles.primaryButton}>
+          <Modal visible={modalOpen} animationType='slide'>
+              <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
+              <View style={customstyles.modalContent}>
+                   <MaterialIcons
+              name='close'
+              size={24}
+              style={{...customstyles.modalToggle, ...customstyles.modalClose}}
+              onPress={() => setModalOpen(false)}
+          />
+                  <AnswerForm addAnswer={addAnswer}/>
+                  </View>
+                  </TouchableWithoutFeedback>
+              </Modal>
+              <PrimaryButton
+                  text='Answer this Question'
+                    onPress={() => setModalOpen(true)}
+          />
+              </View>
+
     </ScrollView>
   )
 }
@@ -165,6 +192,23 @@ const customstyles = StyleSheet.create({
     },
     primaryButton: {
         alignItems:'center'
+    },
+    modalContent: {
+        flex: 1,
+        marginTop: 40,
+        padding: 20
+    },
+    modalToggle: {
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#f2f2f2',
+        padding: 10,
+        borderRadius: 10,
+        alignSelf: 'center'
+    },
+    modalClose: {
+        marginTop: 20,
+        marginBottom: 0
     }
 
 })
