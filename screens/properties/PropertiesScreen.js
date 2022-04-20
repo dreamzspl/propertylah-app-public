@@ -10,17 +10,18 @@ import {useState, useEffect} from 'react'
 import customStyles from "./propertyStyles.js";
 import Filter from "./Filter.js";
 import { Button } from 'react-native-paper';
-import PropertyCRUD from "./PropertyCRUD.js";
+import PropertyCRUD from "./CRUD/PropertyCRUD.js";
+import PropertyServicesScreen from "./CRUD/PropertyServicesScreen";
+import FilterButton from "./FilterButton";
 
-//todo agent details
-//todo filter
 //todo searchbar
+//todo refresh button
 
 const PropertyHome = ({navigation, route})=>{
   const [content, setContent]=useState([]);
 
   if(route.params === undefined){
-    
+    // console.log('rerender with filtered')
   } else {
     // console.log('filter render')
     setContent(route.params.filtered)
@@ -51,7 +52,7 @@ const PropertyHome = ({navigation, route})=>{
                   <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer]}>{obj.propertyName}</Text>
                   <Text style={[textStyles.bodyText, customStyles.fontSmall,customStyles.textContainer]}>{obj.address}</Text>
                   <View style={customStyles.horizontal}>
-                    {obj.saleType === 'rent'? 
+                    {obj.saleType === 'Rent'? 
                       <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]}>{obj.price} /mo</Text>
                       :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>{obj.price}</Text>}
                     <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Availability</Text>
@@ -65,7 +66,7 @@ const PropertyHome = ({navigation, route})=>{
                     <Text style={[textStyles.bodyText, customStyles.fontSmall, customStyles.textContainer]}>distance to MRT</Text>
                   </View>
                   <View style={[customStyles.borderNoTop, customStyles.textContainer]}>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Agent memo</Text>
+                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Agent memo describing property</Text>
                     <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.User.firstName} {obj.User.lastName}</Text>
                     <View style={[customStyles.justifyContainerMid]}>
                       <Pressable style={[customStyles.widthHalf]}><Text style={[textStyles.bodyText, customStyles.contactButton]}>Whatsapp</Text></Pressable>
@@ -80,17 +81,10 @@ const PropertyHome = ({navigation, route})=>{
   )
 };
 
-function FilterButton(){
-  const navigation = useNavigation();
-  return(
-    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('Filter')}>Filter</Button>
-  )
-}
-
 function PropertyCRUDButton(){
   const navigation = useNavigation();
   return(
-    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('PropertyCRUD')}>Add Property</Button>
+    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('PropertyCRUD')}>Add/Modify Property</Button>
   )
 }
 
@@ -103,19 +97,24 @@ function PropertiesScreen(){
         name='Home' 
         component={PropertyHome}
         options={{
-          headerTitle: (props)=><View style={customStyles.horizontal}><FilterButton {...props}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
+          headerTitle: (props)=><View style={customStyles.horizontal}><FilterButton {...props} path={'Home'}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
           headerTitleAlign: 'center',
           headerTitleStyle: 'true',
         }}></Stack.Screen>
       <Stack.Screen
         name='SpecificProperty'
         component={SpecificPropertiesScreen}
-        options={{headerShown: true}}
+        options={{headerShown: false}}
+      ></Stack.Screen>
+      <Stack.Screen
+        name='PropertyServicesScreen'
+        component={PropertyServicesScreen}
+        options={{headerShown: false}}
       ></Stack.Screen>
       <Stack.Screen
         name='Filter'
         component={Filter}
-        options={{headerShown: false}}
+        // options={{headerShown: false}} //todo add icon to clear all filters
       ></Stack.Screen>
       <Stack.Screen
         name='PropertyCRUD'

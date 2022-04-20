@@ -108,7 +108,17 @@ const customStyles = StyleSheet.create({
     inputText:{
         width: (windowWidth-styles.container.paddingHorizontal*2)/2,
         height: 70,
-    }
+    },
+    CRUDButton:{
+        width: '90%',
+        alignSelf: 'center',
+        fontSize: 15,
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+        color: 'white',
+    },
 });
 
 export default customStyles
