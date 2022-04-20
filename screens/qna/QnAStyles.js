@@ -19,6 +19,16 @@ const customStyles = StyleSheet.create({
   },
   formContainer: {
     paddingHorizontal: 20,
+  },
+  dropdownContainer: {
+    borderRadius: 5,
+    backgroundColor: "#f9f9f9",
+    borderColor: "#f1f1f1",
+    borderWidth: 1,
+    width: 350,
+    maxWidth: "100%",
+    padding: 10,
+    marginVertical: 5,
   },  
   icon: {
     color: "#333",

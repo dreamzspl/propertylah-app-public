@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import Colors from "../../constants/colors";
 
 
-const PrimaryButton = ({ onPress, text, type }) => {
+const PrimaryButton = ({ onPress, text, type, disabled }) => {
   return (
     <View>
     <Pressable title="Ask Your Question" onPress={onPress} 
