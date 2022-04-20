@@ -6,10 +6,9 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const ModalPopUp = ( { visible, children } ) => {
   const [ showModal, setShowModal ] = useState(visible);
+
   const scaleValue = React.useRef(new Animated.Value(0)).current;
   
-  const handleClose = () => setShowModal(!visible);
-
   useEffect(() => {
     toggleModal();
   }, [visible]);
@@ -55,7 +54,6 @@ const ModalPopUp = ( { visible, children } ) => {
               <Text style={{ alignSelf: "flex-end", paddingRight: 10 }}>
                 <Ionicons style={styles.icon} name="close-circle-outline"/>
               </Text>
-              
             </Pressable> */}
             {children}
           </Animated.View>
