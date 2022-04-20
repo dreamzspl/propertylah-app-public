@@ -18,7 +18,9 @@ function SpecificPropertiesScreen({route}) {
                         <Image style={customStyles.image} source={require('../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-2.jpg')}></Image>
                         <Image style={customStyles.image} source={require('../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-3.jpg')}></Image>
                     </ScrollView>
-                    <Text style={[customStyles.fontBig, customStyles.textContainer]}>{data.price} /mo</Text>
+                    {data.saleType === 'Rent'? 
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price} /mo</Text>:
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price}</Text>}
                     <View style={[customStyles.horizontal, customStyles.textContainer]}>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBedrooms} <FontAwesome name='bed' /></Text>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBaths} <FontAwesome name='bathtub' /></Text>

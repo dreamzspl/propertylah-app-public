@@ -6,9 +6,6 @@ import { styles, textStyles } from "../../styles/common";
 import customStyles from './propertyStyles'
 import DropdownList from '../../components/UI/DropdownList.js';
 
-// todo add all the other selector first
-// todo add all filter methods if possible
-
 const DropdownListMinMax = (props) => {
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
@@ -31,7 +28,6 @@ const DropdownListMinMax = (props) => {
           props.setVariableMin('Any')
           props.setVariableMax('Any')
           }}/>
-          {/* //todo figure out price section, need alot of if checks*/}
       </List.Accordion>
     </List.Section>
   );
@@ -54,7 +50,7 @@ const Filter = ({navigation, route})=>{
   const [propertyName, setPropertyName] = React.useState('');
   const [address, setAddress] = React.useState('');
   const [postcode, setPostcode] = React.useState('');
-
+  console.log(route.params.path)
   const initialState = ()=>{
     setMinPrice('Any')
     setMaxPrice('Any')
@@ -195,13 +191,18 @@ const Filter = ({navigation, route})=>{
                         return propertyObject
                       }
                     })
-
+                    // console.log(filtered)
                     //! navigate to respective page depending on where filter button was pressed
                     if(route.params.path === 'ViewProperty'){
-                      navigation.navigate('PropertyCRUD', {screen:'ViewProperty', params:{filtered: filtered}})
+                      navigation.navigate('ViewProperty', {filtered: filtered});
+                      navigation.navigate('Content');
+                      initialState();
                     } else {
+                      // console.log(route.params.path)
                       navigation.navigate('Home', {filtered: filtered})
+                      initialState();
                     }
+                    route.params.path = undefined
                     }}>Show Results</Button>
             </View>
         </ScrollView>

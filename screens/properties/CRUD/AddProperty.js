@@ -5,10 +5,9 @@ import customStyles from '../propertyStyles';
 import { styles, textStyles } from "../../../styles/common";
 import API from '../API.js'
 import DropdownList from '../../../components/UI/DropdownList';
+import { AuthContext } from '../../../store/auth-context';
 
-//todo add seller ID
-
-const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{ //todo add sellerid
+const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{
     if(saleType === 'Select One' || tenure === 'Select One' || propertyType === 'Select One'){
         window.alert('All Fields are required')
         return
@@ -39,7 +38,7 @@ const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, pr
             "floorsize" : floorsize,
             "propertyType" : propertyType,
             "TOPYear" : TOPYear,
-            "sellerId": 1, // todo need to add seller id based on login
+            "sellerId": sellerId,
             })
             if(result.status === 200){
                 window.alert(`Property created`)
@@ -65,7 +64,8 @@ const AddProperty = ()=>{
     const [floorsize, setFloorsize] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('Select One');
     const [TOPYear, setTOPYear] = React.useState('');
-    // const sellerId = //todo add this
+    const authCtx = React.useContext(AuthContext);
+    const sellerId = authCtx.id;
     
     const setInitial = ()=>{
         setSaleType('Select One');
@@ -146,7 +146,7 @@ const AddProperty = ()=>{
                     onChangeText={number=>setTOPYear(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <Button style={[customStyles.resultButton]} mode="contained" color='red' onPress={async ()=>{
-                    let status = await validateAndSubmit(saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear); //todo add sellerid
+                    let status = await validateAndSubmit(saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId);
                     if(status === 200){
                         setInitial();
                     }

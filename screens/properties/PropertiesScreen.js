@@ -6,22 +6,31 @@ import { createStackNavigator } from "@react-navigation/stack";
 import SpecificPropertiesScreen from "./SpecificPropertyScreen";
 import { useNavigation } from '@react-navigation/native';
 import API from './API.js'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext, useLayoutEffect} from 'react'
 import customStyles from "./propertyStyles.js";
 import Filter from "./Filter.js";
 import { Button } from 'react-native-paper';
-import PropertyCRUD from "./CRUD/PropertyCRUD.js";
-import PropertyServicesScreen from "./CRUD/PropertyServicesScreen";
-import FilterButton from "./FilterButton";
+
 
 //todo searchbar
 //todo refresh button
 
 const PropertyHome = ({navigation, route})=>{
   const [content, setContent]=useState([]);
+  const [refresh, setRefresh]=useState(true);
+
+  useLayoutEffect(()=>{
+    navigation.setOptions({
+      headerTitleAlign: 'center',
+      headerTitle: (props)=><View style={customStyles.headerButtonsContainer}>
+          <Button style={customStyles.headerButtons} mode={"contained"} onPress={()=>{navigation.navigate('Home', {path:'Home'})}}>Filter</Button>
+          <Button style={customStyles.headerButtons} mode={"contained"} onPress={()=>{setRefresh(!refresh)}}>Refresh</Button>
+        </View>,
+    })
+  })
 
   if(route.params === undefined){
-    // console.log('rerender with filtered')
+    // do nothing
   } else {
     // console.log('filter render')
     setContent(route.params.filtered)
@@ -31,9 +40,8 @@ const PropertyHome = ({navigation, route})=>{
   useEffect(async()=>{
     const incoming = await API.get('/properties');
     const properties = incoming.data.data;
-    // console.log('1st render')
     setContent(properties);
-  },[]);
+  },[refresh]);
 
   return(
     <ScrollView >
@@ -53,8 +61,8 @@ const PropertyHome = ({navigation, route})=>{
                   <Text style={[textStyles.bodyText, customStyles.fontSmall,customStyles.textContainer]}>{obj.address}</Text>
                   <View style={customStyles.horizontal}>
                     {obj.saleType === 'Rent'? 
-                      <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]}>{obj.price} /mo</Text>
-                      :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>{obj.price}</Text>}
+                      <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]}>S$ {obj.price} /mo</Text>
+                      :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>S$ {obj.price}</Text>}
                     <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Availability</Text>
                   </View>
                   <View style={[customStyles.horizontal,customStyles.textContainer]}>
@@ -81,33 +89,20 @@ const PropertyHome = ({navigation, route})=>{
   )
 };
 
-function PropertyCRUDButton(){
-  const navigation = useNavigation();
-  return(
-    <Button mode="outlined" color='grey' onPress={()=>navigation.navigate('PropertyCRUD')}>Add/Modify Property</Button>
-  )
-}
-
 function PropertiesScreen(){
-  const Stack = createStackNavigator();
 
+  const Stack = createStackNavigator();
   return (
     <Stack.Navigator>
       <Stack.Screen 
         name='Home' 
         component={PropertyHome}
-        options={{
-          headerTitle: (props)=><View style={customStyles.headerButtonsContainer}><FilterButton {...props} path={'Home'}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
-          headerTitleAlign: 'center',
-        }}></Stack.Screen>
+        options={({ navigation, route})=>({
+        })}
+        ></Stack.Screen>
       <Stack.Screen
         name='SpecificProperty'
         component={SpecificPropertiesScreen}
-        options={{headerShown: false}}
-      ></Stack.Screen>
-      <Stack.Screen
-        name='PropertyServicesScreen'
-        component={PropertyServicesScreen}
         options={{headerShown: false}}
       ></Stack.Screen>
       <Stack.Screen
@@ -116,12 +111,6 @@ function PropertiesScreen(){
         options={({ navigation, route})=>({
           title: 'Filter',
         })}
-      ></Stack.Screen>
-      <Stack.Screen
-        name='PropertyCRUD'
-        component={PropertyCRUD}
-        options={{headerShown: false}}
-        // options={({ route }) => ({ title: null, headerTitleAlign: 'center'})} //* keep in case need to adjust header
       ></Stack.Screen>
     </Stack.Navigator>
   );

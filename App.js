@@ -6,6 +6,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import * as React from 'react';
 
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
@@ -15,6 +16,7 @@ import HomeScreen from "./screens/home/HomeScreen";
 import ArticlesScreen from "./screens/articles/ArticlesScreen";
 import PropertiesScreen from "./screens/properties/PropertiesScreen";
 import QnAScreen from "./screens/qna/QnAScreen";
+import PropertyCRUD from "./screens/properties/CRUD/PropertyCRUD";
 
 import { styles, textStyles, drawerScreenOptions } from "./styles/common";
 import Colors from "./constants/colors";
@@ -80,6 +82,17 @@ export default function App() {
                 ),
               }}
             />
+            <Drawer.Screen
+              name="My Properties"
+              component={PropertyCRUD}
+              options={{
+                drawerIcon: ({ color, size }) => (
+                  <Ionicons color={color} size={size} name="home-outline" />
+                ),
+
+              }}
+            />
+            
             <Drawer.Screen
               name="Q & A"
               component={QnAScreen}
