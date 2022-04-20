@@ -50,7 +50,6 @@ const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, pr
             return error
         }
     })();
-
     return status
 }
 
@@ -85,7 +84,7 @@ const AddProperty = ()=>{
         <ScrollView>
             <View style={[styles.container,customStyles.backgroundColor]}>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Sale Type</Text>
+                    <Text>Sale/Rent</Text>
                     <DropdownList variable={saleType} setVariable={setSaleType} options={['Rent', 'Sale']}/>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
@@ -115,14 +114,14 @@ const AddProperty = ()=>{
                     onChangeText={number=>setPrice(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bedrooms</Text>
+                    <Text>Bedrooms</Text>
                     <TextInput 
                     value={noOfBedrooms.toString()}
                     placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} 
                     onChangeText={number=>setNoOfBedrooms(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bathrooms</Text>
+                    <Text>Bathrooms</Text>
                     <TextInput 
                     value={noOfBaths.toString()}
                     placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} 

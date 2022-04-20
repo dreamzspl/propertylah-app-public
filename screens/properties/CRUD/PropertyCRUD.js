@@ -12,8 +12,8 @@ const Tab = createMaterialTopTabNavigator();
 const PropertyCRUD = ()=>{
     return(
         <Tab.Navigator screenOptions={{swipeEnabled:false}}>
-            <Tab.Screen options={{tabBarLabel: 'Add Property'}} lazy={true} name='AddProperty' component={AddProperty}></Tab.Screen>
             <Tab.Screen options={{tabBarLabel: 'View/Modify Property'}} name='ViewProperty' lazy={true} component={ViewProperty}></Tab.Screen>
+            <Tab.Screen options={{tabBarLabel: 'Add Property'}} lazy={true} name='AddProperty' component={AddProperty}></Tab.Screen>
         </Tab.Navigator>
     )
 }

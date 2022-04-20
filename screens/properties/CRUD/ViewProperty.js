@@ -17,6 +17,7 @@ const ViewProperty = ({navigation, route})=>{
   if(route.params === undefined){
     // do nothing
   } else if(route.params.update === true){
+    //* this path coming from delete function
     (async()=>{
       // console.log('update after edit/delete')
       const incoming = await API.get('/properties');
@@ -25,18 +26,19 @@ const ViewProperty = ({navigation, route})=>{
       setContent(filteredBySeller);
       route.params.update = false; //* have to do this otherwise route.params always defined and get infinite loop
     })();
+    
   } else if(route.params.filtered){
+    //* this path coming from filter from CRUD section
     let filtered = route.params.filtered.filter(property=>property.sellerId === sellerId); 
     setContent(filtered);
     route.params = undefined; //* have to do this otherwise route.params always defined from filter and get infinite loop
   }
 
   useEffect(async()=>{
+    //* Initial render
     const incoming = await API.get('/properties');
     const properties = incoming.data.data;
     const filteredBySeller = properties.filter(property=>property.sellerId === sellerId); 
-    // console.log(filteredBySeller)
-    // console.log('render property by seller')
     setContent(filteredBySeller);
   },[]); 
 

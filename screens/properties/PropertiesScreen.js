@@ -38,7 +38,7 @@ const PropertyHome = ({navigation, route})=>{
   return(
     <ScrollView >
       <View style={styles.container}>
-        <Text style={customStyles.textContainer}>{content.length} residential properties for rent</Text>
+        <Text style={customStyles.textContainer}>{content.length} properties found</Text>
           {content.map(obj=>{
             return(
               <View key={obj.id}> 
@@ -97,9 +97,8 @@ function PropertiesScreen(){
         name='Home' 
         component={PropertyHome}
         options={{
-          headerTitle: (props)=><View style={customStyles.horizontal}><FilterButton {...props} path={'Home'}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
+          headerTitle: (props)=><View style={customStyles.headerButtonsContainer}><FilterButton {...props} path={'Home'}></FilterButton><PropertyCRUDButton {...props}></PropertyCRUDButton></View>,
           headerTitleAlign: 'center',
-          headerTitleStyle: 'true',
         }}></Stack.Screen>
       <Stack.Screen
         name='SpecificProperty'
@@ -114,7 +113,9 @@ function PropertiesScreen(){
       <Stack.Screen
         name='Filter'
         component={Filter}
-        // options={{headerShown: false}} //todo add icon to clear all filters
+        options={({ navigation, route})=>({
+          title: 'Filter',
+        })}
       ></Stack.Screen>
       <Stack.Screen
         name='PropertyCRUD'

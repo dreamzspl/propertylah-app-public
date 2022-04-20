@@ -79,7 +79,7 @@ const EditProperty = ({route, navigation})=>{
             <View style={[styles.container,customStyles.backgroundColor]}>
                 <Text>Modifying {propertyEdit.propertyName}</Text>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Sale Type</Text>
+                    <Text>Sale/Rent</Text>
                     <DropdownList variable={saleType} setVariable={setSaleType} options={['Rent', 'Sale']}/>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
@@ -109,14 +109,14 @@ const EditProperty = ({route, navigation})=>{
                     onChangeText={number=>setPrice(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bedrooms</Text>
+                    <Text>Bedrooms</Text>
                     <TextInput 
                     value={noOfBedrooms.toString()}
                     placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} 
                     onChangeText={number=>setNoOfBedrooms(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bathrooms</Text>
+                    <Text>Bathrooms</Text>
                     <TextInput 
                     value={noOfBaths.toString()}
                     placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} 
