@@ -4,7 +4,7 @@ import { Controller } from "react-hook-form";
 import Colors from "../../constants/colors";
 
 
-const CustomInput = ({ label, control, name, numberOfLines, rules={}, placeholder, secureTextEntry }) => {
+const CustomInput = ({ onChange, label, control, name, numberOfLines, rules={}, placeholder, secureTextEntry }) => {
   return (
     <>
     <Controller 
@@ -19,7 +19,7 @@ const CustomInput = ({ label, control, name, numberOfLines, rules={}, placeholde
             style={styles.inputContainer}
             onBlur={onBlur}
             onChangeText={onChange}
-            value={value} 
+            value={value}
             placeholder={placeholder}
             multiline={true}
             numberOfLines={numberOfLines}
