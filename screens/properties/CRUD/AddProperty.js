@@ -1,30 +1,12 @@
-import { View, Text, ScrollView, TextInput, Alert } from 'react-native';
+import { View, Text, ScrollView, TextInput } from 'react-native';
 import { Button, List } from 'react-native-paper';
 import * as React from 'react';
-import customStyles from './propertyStyles';
-import { styles, textStyles } from "../../styles/common";
-import API from './API.js'
-import { floor } from 'react-native-reanimated';
+import customStyles from '../propertyStyles';
+import { styles, textStyles } from "../../../styles/common";
+import API from '../API.js'
+import DropdownList from '../../../components/UI/DropdownList';
 
-//todo add tab navigator for create/edit/delete
-
-const DropdownList = (props) => {
-    const [expanded, setExpanded] = React.useState(true);
-    const handlePress = () => setExpanded(!expanded);
-
-    const content = props.options.map(option=>{
-        return(
-            <List.Item key={option} title={option} onPress={()=>{props.setVariable(`${option}`)}}/>
-        )
-    })
-    return (
-      <List.Section >
-        <List.Accordion style={customStyles.list} title={props.variable} >
-            {content}
-        </List.Accordion>
-      </List.Section>
-    );
-};
+//todo add seller ID
 
 const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{ //todo add sellerid
     if(saleType === 'Select One' || tenure === 'Select One' || propertyType === 'Select One'){
@@ -72,8 +54,7 @@ const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, pr
     return status
 }
 
-
-const PropertyCRUD = ()=>{
+const AddProperty = ()=>{
     const [saleType, setSaleType] = React.useState('Select One');
     const [tenure, setTenure] = React.useState('Select One');
     const [propertyName, setPropertyName] = React.useState('');
@@ -85,6 +66,7 @@ const PropertyCRUD = ()=>{
     const [floorsize, setFloorsize] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('Select One');
     const [TOPYear, setTOPYear] = React.useState('');
+    // const sellerId = //todo add this
     
     const setInitial = ()=>{
         setSaleType('Select One');
@@ -99,7 +81,6 @@ const PropertyCRUD = ()=>{
         setPropertyType('Select One');
         setTOPYear('');
     }
-
     return(
         <ScrollView>
             <View style={[styles.container,customStyles.backgroundColor]}>
@@ -121,23 +102,38 @@ const PropertyCRUD = ()=>{
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Postcode</Text>
-                    <TextInput value={postcode} required placeholder='Postcode' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setPostcode(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={postcode.toString()} 
+                    placeholder='Postcode' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setPostcode(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Price (S$)</Text>
-                    <TextInput value={price} placeholder='Price' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setPrice(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={price.toString()} 
+                    placeholder='Price' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setPrice(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Number of Bedrooms</Text>
-                    <TextInput value={noOfBedrooms}placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setNoOfBedrooms(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={noOfBedrooms.toString()}
+                    placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setNoOfBedrooms(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Number of Bathrooms</Text>
-                    <TextInput value={noOfBaths}placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setNoOfBaths(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={noOfBaths.toString()}
+                    placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setNoOfBaths(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Floorsize (sqft)</Text>
-                    <TextInput value={floorsize} placeholder='Floorsize' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setFloorsize(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={floorsize.toString()} 
+                    placeholder='Floorsize' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setFloorsize(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>Property Type</Text>
@@ -145,7 +141,10 @@ const PropertyCRUD = ()=>{
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
                     <Text>TOP Year</Text>
-                    <TextInput value={TOPYear} placeholder='YYYY' keyboardType='numeric' style={customStyles.inputText} onChangeText={number=>setTOPYear(parseInt(number))}></TextInput>
+                    <TextInput 
+                    value={TOPYear.toString()} 
+                    placeholder='YYYY' keyboardType='numeric' style={customStyles.inputText} 
+                    onChangeText={number=>setTOPYear(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <Button style={[customStyles.resultButton]} mode="contained" color='red' onPress={async ()=>{
                     let status = await validateAndSubmit(saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear); //todo add sellerid
@@ -158,4 +157,4 @@ const PropertyCRUD = ()=>{
     )
 }
 
-export default PropertyCRUD
+export default AddProperty
