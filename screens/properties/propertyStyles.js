@@ -119,6 +119,30 @@ const customStyles = StyleSheet.create({
         borderRadius: 10,
         color: 'white',
     },
+    ListTextInput:{
+        width: (windowWidth-styles.container.paddingHorizontal*2)/2,
+        height: 60,
+        fontSize: 18,
+        padding: 5,
+        borderWidth: 1,
+        marginVertical: 1,
+    },
+    headerButtonsContainer:{
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+    },
+    headerButtons:{
+        width: '50%',
+        alignSelf: 'center',
+        fontSize: 15,
+        paddingVertical: 5,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+        color: 'white',
+    },
 });
 
 export default customStyles

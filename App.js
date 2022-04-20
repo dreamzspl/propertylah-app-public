@@ -12,6 +12,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import * as React from 'react';
 
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
@@ -23,6 +24,7 @@ import HomeScreen from "./screens/home/HomeScreen";
 import ArticlesScreen from "./screens/articles/ArticlesScreen";
 import PropertiesScreen from "./screens/properties/PropertiesScreen";
 import QnAScreen from "./screens/qna/QnAScreen";
+import PropertyCRUD from "./screens/properties/CRUD/PropertyCRUD";
 
 import ProfileScreen from "./screens/auth/ProfileScreen";
 
@@ -82,6 +84,16 @@ function GuestDrawer() {
       <Drawer.Screen
         name="Properties"
         component={PropertiesScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="home-outline" />
+          ),
+        }}
+      />
+      {/* //! remove after testing */}
+      <Drawer.Screen
+        name="My Properties"
+        component={PropertyCRUD}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons color={color} size={size} name="home-outline" />
@@ -169,7 +181,71 @@ function MemberDrawer() {
 }
 
 // isAuthenticated === true && role === "agent"
-function AgentDrawer() {}
+function AgentDrawer() {
+  return (
+    <Drawer.Navigator
+      screenOptions={drawerScreenOptions}
+      initialRouteName="Home"
+    >
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: "Profile",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="person-circle-outline" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="list" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Properties"
+        component={PropertiesScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="home-outline" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="My Properties"
+        component={PropertyCRUD}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="home-outline" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Q & A"
+        component={QnAScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="people" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Articles"
+        component={ArticlesScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons color={color} size={size} name="md-newspaper-outline" />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
 
 function Navigation() {
   const authCtx = useContext(AuthContext);

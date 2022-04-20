@@ -2,21 +2,27 @@ import { View, Text, Image, ScrollView, Pressable } from "react-native";
 import { styles, textStyles } from "../../../styles/common";
 import { FontAwesome } from "@expo/vector-icons";
 import Colors from "../../../constants/colors";
+import { Button } from "react-native-paper";
 import API from '../API.js'
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import customStyles from "../propertyStyles.js";
-import FilterButton from "../FilterButton";
 import { createStackNavigator } from "@react-navigation/stack";
 import EditProperty from "./EditProperty";
+import { AuthContext } from "../../../store/auth-context";
+import PropertyServicesScreen from "./PropertyServicesScreen";
+import Filter from "../Filter";
 
 const ViewProperty = ({navigation, route})=>{
+  const authCtx = React.useContext(AuthContext);
   const Stack = createStackNavigator();
   const [content, setContent]=useState([]);
-  const [sellerId, setSellerId]=useState(1); 
-
+  const sellerId = authCtx.id; 
+  const [refresh, setRefresh]=useState(true);
+  
   if(route.params === undefined){
     // do nothing
   } else if(route.params.update === true){
+    //* this path coming from delete function
     (async()=>{
       // console.log('update after edit/delete')
       const incoming = await API.get('/properties');
@@ -26,25 +32,28 @@ const ViewProperty = ({navigation, route})=>{
       route.params.update = false; //* have to do this otherwise route.params always defined and get infinite loop
     })();
   } else if(route.params.filtered){
+    //* this path coming from filter from CRUD section
     let filtered = route.params.filtered.filter(property=>property.sellerId === sellerId); 
     setContent(filtered);
     route.params = undefined; //* have to do this otherwise route.params always defined from filter and get infinite loop
   }
 
   useEffect(async()=>{
+    //* Initial render
     const incoming = await API.get('/properties');
     const properties = incoming.data.data;
     const filteredBySeller = properties.filter(property=>property.sellerId === sellerId); 
-    // console.log(filteredBySeller)
-    // console.log('render property by seller')
     setContent(filteredBySeller);
-  },[]); 
+  },[refresh]); 
 
   const Content = ()=>{
     return(
     <ScrollView >
       <View style={styles.container}>
-        <FilterButton path={'ViewProperty'} />
+        <View style={customStyles.headerButtonsContainer}>
+          <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{navigation.navigate('Filter', {path:'ViewProperty'})}}>Filter</Button>
+          <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{setRefresh(!refresh)}}>Refresh</Button>
+        </View>
         <Text style={customStyles.textContainer}>You have {content.length} properties listed</Text>
           {content.map(obj=>{
             return(
@@ -60,8 +69,8 @@ const ViewProperty = ({navigation, route})=>{
                   <Text style={[textStyles.bodyText, customStyles.fontSmall,customStyles.textContainer]}>{obj.address}</Text>
                   <View style={customStyles.horizontal}>
                     {obj.saleType === 'rent'? 
-                      <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]} >{obj.price} /mo</Text>
-                      :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>{obj.price}</Text>}
+                      <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]} >S$ {obj.price} /mo</Text>
+                      :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>S$ {obj.price}</Text>}
                     <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Availability</Text>
                   </View>
                   <View style={[customStyles.horizontal,customStyles.textContainer]}>
@@ -84,6 +93,8 @@ const ViewProperty = ({navigation, route})=>{
     <Stack.Navigator>
       <Stack.Screen name='Content' component={Content} options={{headerShown: false}}></Stack.Screen>
       <Stack.Screen name='EditProperty' component={EditProperty} options={{headerShown: false}}></Stack.Screen>
+      <Stack.Screen name='PropertyServicesScreen' component={PropertyServicesScreen} options={{headerShown: false}}></Stack.Screen>
+      <Stack.Screen name='Filter' component={Filter} options={{headerShown: false}}></Stack.Screen>
     </Stack.Navigator>
   )
 };

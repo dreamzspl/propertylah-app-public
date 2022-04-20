@@ -12,9 +12,15 @@ function PropertyServicesScreen({route, navigation}) {
     let tempDate = new Date(route.params.props.createdAt).toDateString();
     let date = `${tempDate.slice(4,10)}, ${tempDate.slice(11)}`
 
+    if(route.params.path === 'EditProperty'){
+        setData(route.params.props);
+        route.params.path = undefined;
+    } 
+
     React.useEffect(async()=>{
+        // console.log(route.params.props)
         setData(route.params.props)
-    },[data])
+    },[])
 
     const confirmDelete = ()=>{
         return Alert.alert(
@@ -37,7 +43,8 @@ function PropertyServicesScreen({route, navigation}) {
                 let result = await API.delete(`/properties/${data.id}`)
                 if(result.status === 200){
                     window.alert('Property Deleted')
-                    navigation.navigate('PropertyCRUD', {screen:'ViewProperty', params:{update:true}})
+                    navigation.navigate('ViewProperty', {update:true}) //* just to force update of state, cant go direct to content because useState is in parent
+                    navigation.navigate('Content') //* After update only go to Content page
                 } 
             } catch(error) {
                 window.alert(error.message)
@@ -55,7 +62,11 @@ function PropertyServicesScreen({route, navigation}) {
                         <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-2.jpg')}></Image>
                         <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-3.jpg')}></Image>
                     </ScrollView>
-                    <Text style={[customStyles.fontBig, customStyles.textContainer]}>{data.price} /mo</Text>
+                    {data.saleType === 'Rent'? 
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price} /mo</Text>:
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price}</Text>
+                    }
+                    
                     <View style={[customStyles.horizontal, customStyles.textContainer]}>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBedrooms} <FontAwesome name='bed' /></Text>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBaths} <FontAwesome name='bathtub' /></Text>
@@ -98,7 +109,7 @@ function PropertyServicesScreen({route, navigation}) {
                 <View style={[customStyles.borderNoTop, customStyles.textContainer]}>
                     <View style={[customStyles.justifyContainerMid]}>
                         <Pressable style={[customStyles.widthHalf]} 
-                            onPress={()=>{navigation.navigate('PropertyCRUD', {screen:'ViewProperty', params:{screen:'EditProperty', params:{property: data}}})}}
+                            onPress={()=>{navigation.navigate('EditProperty', {property: data})}}
                         ><Text style={[textStyles.bodyText, customStyles.CRUDButton, {backgroundColor:'green'}]}>Edit</Text>
                         </Pressable>
                         <Pressable style={[customStyles.widthHalf]} onPress={()=>{confirmDelete()}}>
