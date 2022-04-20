@@ -213,14 +213,6 @@ const QuestionForm = ({error, setOption}) => {
 
       <Dropdown onPress={onChangeCategoryHandler} value={data.category} />
 
-
-
-
-
-
-
-      
-
       <Input
         onChangeText={onChangeCategoryHandler}
         label="Category"
