@@ -47,6 +47,15 @@ export const helperStyles = StyleSheet.create({
 });
 
 // Navigation Styles
+export const drawerScreenOptions1 = {
+  headerShown: false,
+  sceneContainerStyle: { backgroundColor: "white" },
+  drawerContentStyle: { backgroundColor: "white" },
+  drawerInactiveTintColor: Colors.primary500,
+  drawerActiveTintColor: "white",
+  drawerActiveBackgroundColor: Colors.primary500,
+};
+
 export const drawerScreenOptions = {
   headerStyle: { backgroundColor: Colors.primary500 },
   headerTitleStyle: { fontFamily: "rubik-bold" },

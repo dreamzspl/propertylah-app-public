@@ -4,25 +4,11 @@ import { View, Text, ScrollView, TextInput } from 'react-native';
 import { Button, List } from 'react-native-paper';
 import { styles, textStyles } from "../../styles/common";
 import customStyles from './propertyStyles'
+import DropdownList from '../../components/UI/DropdownList.js';
 
-// todo clean up dropdown list format
 // todo add all the other selector first
 // todo add all filter methods if possible
 
-const DropdownListPropertyType = (props) => {
-  const [expanded, setExpanded] = React.useState(true);
-  const handlePress = () => setExpanded(!expanded);
-  return (
-    <List.Section >
-      <List.Accordion style={customStyles.list} title={props.propertyType} >
-        <List.Item title="HDB" onPress={()=>{props.setPropertyType('HDB')}}/>
-        <List.Item title="Apartment" onPress={()=>{props.setPropertyType('Apartment')}}/>
-        <List.Item title="Condominium" onPress={()=>{props.setPropertyType('Condominium')}}/>
-        <List.Item title="All" onPress={()=>{props.setPropertyType('All')}}/>
-      </List.Accordion>
-    </List.Section>
-  );
-};
 const DropdownListPrice = (props) => {
   const [expanded, setExpanded] = React.useState(true);
   const handlePress = () => setExpanded(!expanded);
@@ -43,7 +29,7 @@ const DropdownListPrice = (props) => {
   );
 };
 
-const Filter = ({navigation})=>{
+const Filter = ({navigation, route})=>{
   const [minPrice, setMinPrice] = React.useState('Any')
   const [maxPrice, setMaxPrice] = React.useState('Any')
   const [propertyType, setPropertyType] = React.useState('All');
@@ -54,7 +40,7 @@ const Filter = ({navigation})=>{
                 <View>
                   <View style={customStyles.filterHorizontalContainer}>
                     <Text style={[customStyles.filterPageFont, customStyles.bold]}>Property Type</Text>
-                    <DropdownListPropertyType propertyType={propertyType} setPropertyType={setPropertyType}/>
+                    <DropdownList variable={propertyType} setVariable={setPropertyType} options={['All', 'HDB', 'Apartment', 'Condominium']}/>
                   </View>
                   <View style={customStyles.filterHorizontalContainer}>
                     <Text style={[customStyles.filterPageFont, customStyles.bold]}>Price</Text>
@@ -81,8 +67,13 @@ const Filter = ({navigation})=>{
                         return propertyObject
                       }
                       })
-                    console.log(test)
-                    navigation.navigate('Home', {filtered: test})
+                    // console.log(test)
+                    // console.log(route.params.path)
+                    if(route.params.path === 'ViewProperty'){
+                      navigation.navigate('PropertyCRUD', {screen:'ViewProperty', params:{filtered: test}})
+                    } else {
+                      navigation.navigate('Home', {filtered: test})
+                    }
                     }}>Show Results</Button>
             </View>
         </ScrollView>
