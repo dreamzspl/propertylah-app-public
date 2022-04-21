@@ -128,7 +128,7 @@ function Navigation() {
             name="ManageProperty"
             component={PropertyCRUD}
             options={{
-              title: "Property CRUD",
+              title: "My Listed Properties",
               drawerIcon: ({ color, size }) => (
                 <Ionicons
                   color={color}

@@ -1,32 +1,48 @@
 import * as React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Styles and Icons
 import customStyles from '../propertyStyles';
-import { styles, textStyles } from "../../../styles/common";
-import { Text } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { stackNavigatorScreenOptions, styles } from "../../../styles/common";
+
+// Components
 import AddProperty from './AddProperty';
 import ViewProperty from './ViewProperty';
-import { AuthContext } from '../../../store/auth-context';
+import DrawerMenu from '../../../components/nav/DrawerMenu';
+import EditProperty from './EditProperty';
+import PropertyServicesScreen from './PropertyServicesScreen';
+import Filter2 from './Filter2';
+import { Button } from 'react-native-paper';
 
-//todo tab navigators
+const Stack = createNativeStackNavigator();
 
-const Tab = createMaterialTopTabNavigator();
-
-// const Error = () =>{
-//     return(
-//         <Text style={{textAlign:'center', fontSize: 30, marginTop: 20,}}>Please login as agent to access this page</Text>
-//     )
-// }
-
-const PropertyCRUD = ()=>{
-    const authCtx = React.useContext(AuthContext);
+const PropertyCRUD = ({navigation})=>{
 
     return(
-        <Tab.Navigator screenOptions={{swipeEnabled:false, lazy:true}}>
-            <Tab.Screen options={{tabBarLabel: 'View/Modify Property'}} name='ViewProperty' component={ViewProperty}></Tab.Screen>
-            <Tab.Screen options={{tabBarLabel: 'Add Property'}} name='AddProperty' component={AddProperty}></Tab.Screen>
-            {/* {authCtx.id? <Tab.Screen options={{tabBarLabel: 'View/Modify Property'}} name='ViewProperty' component={ViewProperty}></Tab.Screen>: <Tab.Screen name='Error' component={Error}></Tab.Screen>}
-            {authCtx.id? <Tab.Screen options={{tabBarLabel: 'Add Property'}} name='AddProperty' component={AddProperty}></Tab.Screen>: null} */}
-        </Tab.Navigator>
+        //! screenOption in navigator to apply styling etc for the whole stack, burger button done manually(DrawerMenu using headerLeft)
+        <Stack.Navigator screenOptions={stackNavigatorScreenOptions}>
+            <Stack.Screen 
+                options={{
+                    headerLeft:()=> <DrawerMenu />,
+                    headerRight:()=> <Button 
+                        mode='contained' style={customStyles.clearFilterButton}
+                        onPress={()=>{navigation.navigate('AddProperty')}}
+                        >+Add</Button>,
+                    headerTitleAlign: 'left',
+                    title: 'My Properties',
+                    }}
+                name='ViewProperty' 
+                component={ViewProperty}
+            ></Stack.Screen>
+            <Stack.Screen options={{title: 'Add Property'}} name='AddProperty' component={AddProperty}></Stack.Screen>
+            <Stack.Screen name='EditProperty' component={EditProperty} options={{headerShown: true}}></Stack.Screen>
+            <Stack.Screen name='PropertyServicesScreen' component={PropertyServicesScreen} options={{headerShown: true, title: 'Edit/Delete Property'}}></Stack.Screen>
+            <Stack.Screen 
+                options={{title:'Filter', headerShown: true}} 
+                name='Filter2' 
+                component={Filter2}
+            ></Stack.Screen>
+        </Stack.Navigator>
     )
 }
 
