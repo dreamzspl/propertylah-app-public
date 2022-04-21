@@ -11,9 +11,7 @@ import customStyles from "./propertyStyles.js";
 import Filter from "./Filter.js";
 import { Button } from 'react-native-paper';
 
-
 //todo searchbar
-//todo refresh button
 
 const PropertyHome = ({navigation, route})=>{
   const [content, setContent]=useState([]);
@@ -22,8 +20,10 @@ const PropertyHome = ({navigation, route})=>{
   useLayoutEffect(()=>{
     navigation.setOptions({
       headerTitleAlign: 'center',
-      headerTitle: (props)=><View style={customStyles.headerButtonsContainer}>
-          <Button style={customStyles.headerButtons} mode={"contained"} onPress={()=>{navigation.navigate('Home', {path:'Home'})}}>Filter</Button>
+      headerTitle: (props)=><View {...props} style={customStyles.headerButtonsContainer}>
+          <Button style={customStyles.headerButtons} mode={"contained"} onPress={()=>{
+              navigation.navigate('Filter', {path:'Home'})
+          }}>Filter</Button>
           <Button style={customStyles.headerButtons} mode={"contained"} onPress={()=>{setRefresh(!refresh)}}>Refresh</Button>
         </View>,
     })
@@ -32,7 +32,6 @@ const PropertyHome = ({navigation, route})=>{
   if(route.params === undefined){
     // do nothing
   } else {
-    // console.log('filter render')
     setContent(route.params.filtered)
     route.params = undefined; //* have to do this otherwise route.params always defined from filter and get infinite loop
   }
@@ -93,7 +92,7 @@ function PropertiesScreen(){
 
   const Stack = createStackNavigator();
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{lazy:true}}>
       <Stack.Screen 
         name='Home' 
         component={PropertyHome}

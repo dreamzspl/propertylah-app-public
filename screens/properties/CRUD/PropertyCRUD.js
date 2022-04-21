@@ -11,11 +11,11 @@ import { AuthContext } from '../../../store/auth-context';
 
 const Tab = createMaterialTopTabNavigator();
 
-const Error = () =>{
-    return(
-        <Text style={{textAlign:'center', fontSize: 30, marginTop: 20,}}>Please login as agent to access this page</Text>
-    )
-}
+// const Error = () =>{
+//     return(
+//         <Text style={{textAlign:'center', fontSize: 30, marginTop: 20,}}>Please login as agent to access this page</Text>
+//     )
+// }
 
 const PropertyCRUD = ()=>{
     const authCtx = React.useContext(AuthContext);
