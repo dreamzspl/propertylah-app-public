@@ -1,20 +1,20 @@
-import API from './API.js'
+import API from '../API';
 import * as React from 'react';
 
 // styles
-import { styles } from "../../styles/common";
-import customStyles from './propertyStyles'
+import { styles } from '../../../styles/common'
+import customStyles from '../propertyStyles'
 
 // Components
 import { View, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
-import DropdownList from '../../components/UI/DropdownList.js';
-import DropdownListMinMax from '../../components/UI/DropdownListMinMax.js';
+import DropdownList from '../../../components/UI/DropdownList';
+import DropdownListMinMax from '../../../components/UI/DropdownListMinMax';
 
 //! Note: Using another Filter for propertyCRUD because the navigator causes some problems when navigating to different drawer page. 
 //! Filter page shows up when going from CRUD to Properties instead of the Homepage. 
 
-const Filter = ({navigation, route})=>{
+const Filter2 = ({navigation, route})=>{
   const [minPrice, setMinPrice] = React.useState('Any')
   const [maxPrice, setMaxPrice] = React.useState('Any')
   const [minYear, setMinYear] = React.useState('Any')
@@ -131,8 +131,6 @@ const Filter = ({navigation, route})=>{
               return propertyObject
             } else if (maxPrice === 'Any' && propertyObject.price >= minPrice){
               return propertyObject
-            } else if (propertyObject.price >= minPrice && propertyObject.price <= maxPrice){
-              return propertyObject
             }
           })
           //* TOPYear
@@ -142,8 +140,6 @@ const Filter = ({navigation, route})=>{
             } else if (minYear === 'Any' && propertyObject.TOPYear <= maxYear){
               return propertyObject
             } else if (maxYear === 'Any' && propertyObject.TOPYear >= minYear){
-              return propertyObject
-            } else if (propertyObject.TOPYear >= minYear && propertyObject.TOPYear <= maxYear){
               return propertyObject
             }
           })
@@ -155,8 +151,6 @@ const Filter = ({navigation, route})=>{
               return propertyObject
             } else if (maxNoOfBedrooms === 'Any' && propertyObject.noOfBedrooms >= minNoOfBedrooms){
               return propertyObject
-            } else if (propertyObject.noOfBedrooms >= minNoOfBedrooms && propertyObject.noOfBedrooms <= maxNoOfBedrooms){
-              return propertyObject
             }
           })
           //* Bathrooms
@@ -166,8 +160,6 @@ const Filter = ({navigation, route})=>{
             } else if (minNoOfBaths === 'Any' && propertyObject.noOfBaths <= maxNoOfBaths){
               return propertyObject
             } else if (maxNoOfBaths === 'Any' && propertyObject.noOfBaths >= minNoOfBaths){
-              return propertyObject
-            } else if (propertyObject.noOfBaths >= minNoOfBaths && propertyObject.noOfBaths <= maxNoOfBaths){
               return propertyObject
             }
           })
@@ -179,22 +171,18 @@ const Filter = ({navigation, route})=>{
               return propertyObject
             } else if (maxFloorsize === 'Any' && propertyObject.floorsize >= minFloorsize){
               return propertyObject
-            } else if (propertyObject.floorsize >= minFloorsize && propertyObject.floorsize <= maxFloorsize){
-              return propertyObject
             }
           })
 
           //! navigate to respective page depending on where filter button was pressed
           if(route.params.path === 'ViewProperty'){
-            // do nothing here, changed to use Filter2 for PropertyCRUD sections
-          } else {
-            navigation.navigate('Home', {filtered: filtered})
             initialState();
-          }
+            navigation.navigate('ViewProperty', {filtered: filtered});
+          } 
         }}>Show Results</Button>
       </View>
     </ScrollView>
   )
 }
 
-export default Filter
+export default Filter2

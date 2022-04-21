@@ -1,20 +1,17 @@
 import { View, Text, Image, ScrollView, Pressable } from "react-native";
 import { styles, textStyles } from "../../../styles/common";
 import { FontAwesome } from "@expo/vector-icons";
-import Colors from "../../../constants/colors";
 import { Button } from "react-native-paper";
 import API from '../API.js'
 import React, {useState, useEffect} from 'react'
 import customStyles from "../propertyStyles.js";
-import { createStackNavigator } from "@react-navigation/stack";
-import EditProperty from "./EditProperty";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from "../../../store/auth-context";
-import PropertyServicesScreen from "./PropertyServicesScreen";
-import Filter from "../Filter";
+
 
 const ViewProperty = ({navigation, route})=>{
   const authCtx = React.useContext(AuthContext);
-  const Stack = createStackNavigator();
+  const Stack = createNativeStackNavigator();
   const [content, setContent]=useState([]);
   const sellerId = authCtx.id; 
   const [refresh, setRefresh]=useState(true);
@@ -46,56 +43,47 @@ const ViewProperty = ({navigation, route})=>{
     setContent(filteredBySeller);
   },[refresh]); 
 
-  const Content = ()=>{
-    return(
-    <ScrollView >
-      <View style={styles.container}>
-        <View style={customStyles.headerButtonsContainer}>
-          <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{navigation.navigate('Filter', {path:'ViewProperty'})}}>Filter</Button>
-          <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{setRefresh(!refresh)}}>Refresh</Button>
-        </View>
-        <Text style={customStyles.textContainer}>You have {content.length} properties listed</Text>
-          {content.map(obj=>{
-            return(
-              <View key={obj.id}> 
-                <ScrollView pagingEnabled={true} horizontal={true} showsHorizontalScrollIndicator={false} style={customStyles.imageContainer}>
-                  <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-1.jpg')}></Image>
-                  <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-2.jpg')}></Image>
-                  <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-3.jpg')}></Image>
-                </ScrollView>
-                <Pressable onPress={()=>navigation.navigate(`PropertyServicesScreen`, {props: obj})}> 
-                  <View style={customStyles.borderNoTop}>
-                  <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer]}>{obj.propertyName}</Text>
-                  <Text style={[textStyles.bodyText, customStyles.fontSmall,customStyles.textContainer]}>{obj.address}</Text>
-                  <View style={customStyles.horizontal}>
-                    {obj.saleType === 'rent'? 
-                      <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]} >S$ {obj.price} /mo</Text>
-                      :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>S$ {obj.price}</Text>}
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Availability</Text>
-                  </View>
-                  <View style={[customStyles.horizontal,customStyles.textContainer]}>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.noOfBedrooms} <FontAwesome name='bed' /></Text>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.noOfBaths} <FontAwesome name='bathtub' /></Text>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.floorsize} sqft</Text>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall]}>S$ {obj.pricePSF} psf</Text>
-                  </View>
-                    <Text style={[textStyles.bodyText, customStyles.fontSmall, customStyles.textContainer]}>distance to MRT</Text>
-                  </View>
-                </Pressable>
-              </View>
-            )})}
-      </View>
-    </ScrollView>
-    )
-  }
-
   return(
-    <Stack.Navigator>
-      <Stack.Screen name='Content' component={Content} options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name='EditProperty' component={EditProperty} options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name='PropertyServicesScreen' component={PropertyServicesScreen} options={{headerShown: false}}></Stack.Screen>
-      <Stack.Screen name='Filter' component={Filter} options={{headerShown: false}}></Stack.Screen>
-    </Stack.Navigator>
+  <View style={styles.container}>
+    <View style={[customStyles.headerButtonsContainer, styles.container]}>
+      <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{navigation.navigate('Filter2', {path:'ViewProperty'})}}>Filter</Button>
+      <Button style={customStyles.headerButtons} mode="contained" onPress={()=>{setRefresh(!refresh)}}>Refresh</Button>
+    </View>
+  <ScrollView >
+    <View >
+      <Text style={customStyles.textContainer}>You have {content.length} properties listed</Text>
+        {content.map(obj=>{
+          return(
+            <View key={obj.id}> 
+              <ScrollView pagingEnabled={true} horizontal={true} showsHorizontalScrollIndicator={false} style={customStyles.imageContainer}>
+                <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-1.jpg')}></Image>
+                <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-2.jpg')}></Image>
+                <Image style={customStyles.image} source={require('../../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-3.jpg')}></Image>
+              </ScrollView>
+              <Pressable onPress={()=>navigation.navigate(`PropertyServicesScreen`, {props: obj})}> 
+                <View style={customStyles.borderNoTop}>
+                <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer]}>{obj.propertyName}</Text>
+                <Text style={[textStyles.bodyText, customStyles.fontSmall,customStyles.textContainer]}>{obj.address}</Text>
+                <View style={customStyles.horizontal}>
+                  {obj.saleType === 'rent'? 
+                    <Text style={[textStyles.bodyText, customStyles.textPadding,customStyles.textContainer,]} >S$ {obj.price} /mo</Text>
+                    :<Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.textContainer ]}>S$ {obj.price}</Text>}
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall]}>Availability</Text>
+                </View>
+                <View style={[customStyles.horizontal,customStyles.textContainer]}>
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.noOfBedrooms} <FontAwesome name='bed' /></Text>
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.noOfBaths} <FontAwesome name='bathtub' /></Text>
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{obj.floorsize} sqft</Text>
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall]}>S$ {obj.pricePSF} psf</Text>
+                </View>
+                  <Text style={[textStyles.bodyText, customStyles.fontSmall, customStyles.textContainer]}>distance to MRT</Text>
+                </View>
+              </Pressable>
+            </View>
+          )})}
+    </View>
+  </ScrollView>
+  </View>
   )
 };
 
