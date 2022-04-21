@@ -172,20 +172,20 @@ const QnList = ({ navigation }) => {
   )
 }
 
-const SeeCommonAnswer = () => {
-    const navigation = useNavigation();
-  const onTopicPressed = async () => {
-    navigation.navigate("List of Answers");
-    console.warn("Topic pressed.");
-  }
-  return (
-    <View style={customStyle.commonAns}>      
-                  <Pressable> 
-                  <Text onPress={onTopicPressed} style={{ color:'red'}}>See Common Answer</Text>
-                  </Pressable>
-                </View>
-  )
-}
+// const SeeCommonAnswer = () => {
+//     const navigation = useNavigation();
+//   const onTopicPressed = async () => {
+//     navigation.navigate("List of Answers");
+//     console.warn("Topic pressed.");
+//   }
+//   return (
+//     <View style={customStyle.commonAns}>      
+//                   <Pressable> 
+//                   <Text onPress={onTopicPressed} style={{ color:'red'}}>See Common Answer</Text>
+//                   </Pressable>
+//                 </View>
+//   )
+// }
 
 
 
@@ -237,7 +237,7 @@ const ListTopicQns = ({ navigation, route }) => {
   return (
     <ScrollView>
       <QuestionHeader />
-          <SeeCommonAnswer />
+          {/* <SeeCommonAnswer /> */}
           <QnList navigation={navigation} />
           
     </ScrollView>

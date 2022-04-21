@@ -22,6 +22,7 @@ export default function QnAHome() {
   const [ loading, setLoading ] = useState(false);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
   // const [ noOfQuestions, setNoOfQuestions ] = useState(0);
+  const navigation = useNavigation();
 
   // Topic cards function
   const onTopicPressed = async () => {
@@ -66,7 +67,6 @@ export default function QnAHome() {
   // Close button to close modal
   const handleClose = () => setIsModalVisible(false);
 
-  const navigation = useNavigation();
 
 
   return (
