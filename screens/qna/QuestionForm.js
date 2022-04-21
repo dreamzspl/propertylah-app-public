@@ -4,47 +4,48 @@ import API from "./API";
 
 import Input from "../../components/UI/Input";
 import PrimaryButton from "../../components/UI/PrimaryButton";
-// import Dropdown from "../../components/UI/Dropdown";
+import Dropdown from "../../components/UI/Dropdown";
 import Colors from "../../constants/colors";
 
 import { ModalPicker } from "../../components/UI/DropdownModalPicker";
 
-const Dropdown = () => {
-  const [ chooseCat, setChooseCat ] = useState('Select Category');
-  const [ isModalVisible, setIsModalVisible ] = useState(false);
+// const Dropdown = () => {
+//   const [ chooseCat, setChooseCat ] = useState('Select Category');
+//   const [ isModalVisible, setIsModalVisible ] = useState(false);
 
-  const changeModalVisibility = (bool) => {
-    setIsModalVisible(bool);
-  }
+//   const changeModalVisibility = (bool) => {
+//     setIsModalVisible(bool);
+//   }
 
-  const setData = (option) => {
-    setChooseCat(option)
-  }
+//   const setData = (option) => {
+//     setChooseCat(option)
+//   }
+//   // state updating function
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.labelText}>Category</Text>
-      <TouchableOpacity
-        style={styles.touchableOpacity}
-        onPress={() => changeModalVisibility(true)}
-      >
-        <Text>{chooseCat}</Text>
-      </TouchableOpacity>
+//   return (
+//     <SafeAreaView style={styles.container}>
+//       <Text style={styles.labelText}>Category</Text>
+//       <TouchableOpacity
+//         style={styles.touchableOpacity}
+//         onPress={() => changeModalVisibility(true)}
+//       >
+//         <Text>{chooseCat}</Text>
+//       </TouchableOpacity>
 
-      <Modal
-        // transparent={true}
-        animationType="fade"
-        visible={isModalVisible}
-        nRequestClose={() => changeModalVisibility(false)}
-      >
-        <ModalPicker 
-          changeModalVisibility={changeModalVisibility}
-          setData={setData}
-        />
-      </Modal>
-    </SafeAreaView>
-  )
-}
+//       <Modal
+//         // transparent={true}
+//         animationType="fade"
+//         visible={isModalVisible}
+//         nRequestClose={() => changeModalVisibility(false)}
+//       >
+//         <ModalPicker 
+//           changeModalVisibility={changeModalVisibility}
+//           setData={setData}
+//         />
+//       </Modal>
+//     </SafeAreaView>
+//   )
+// }
 
 
 
@@ -59,6 +60,18 @@ const QuestionForm = ({error, setOption}) => {
     isValidUser: true,
     isLoading: true,
   })
+  const [ chooseCat, setChooseCat ] = useState("Select Category");
+
+  const CATEGORIES = { 
+    "🏢 Condo Questions" : "Condo Questions", 
+    "👪 Home Buying" : "Home Buying", 
+    "🏙️ HDB": "HDB", 
+    "🛏️ Renting" : "Renting",
+    "💬 General" : "General", 
+    "💰 Home Selling" : "Home Selling", 
+    "💲 Home Financing" : "Home Financing", 
+    "👩🏻‍💼 Property Agents" : "Property Agents"
+  }
 
   const [ err, setErr ] = useState(false);
 
@@ -82,19 +95,9 @@ const QuestionForm = ({error, setOption}) => {
 
   const onChangeCategoryHandler = (cat) => {
     if (cat) {
-      setData({
-        ...data,
-        category: cat,
-        check_textInputChange: true,
-        isValidUser: true
-      })
+      setChooseCat(cat)
     } else {
-      setData({
-        ...data,
-        category: cat,
-        check_textInputChange: false,
-        isValidUser: false
-      });
+      setChooseCat("Select Category");
     }
   };
 
@@ -155,10 +158,14 @@ const QuestionForm = ({error, setOption}) => {
       alert("Question field cannot be empty.")
       setErr(true);
       return;
-    } else if (!data.category.trim()) {
+    } else if (chooseCat == "Select Category") {
       alert("Please select a category.")
       setErr(true);
       return;
+    // } else if (!data.category.trim()) {
+    //   alert("Please select a category.")
+    //   setErr(true);
+    //   return;
     } else if (!data.email.trim()) {
       alert("Please input your email.")
       setErr(true);
@@ -178,7 +185,7 @@ const QuestionForm = ({error, setOption}) => {
     try {
       const res = await API.post(`/questions`, {
         "question" : data.question,
-        "category" : data.category,
+        "category" : chooseCat,
         "email" : data.email,
         "firstName" : data.firstName,
         "lastName" : data.lastName
@@ -187,7 +194,7 @@ const QuestionForm = ({error, setOption}) => {
         alert(`You have created a question: ${JSON.stringify(res.data)}`);
         setData({ isLoading : false });  
         setData({ question : "" });
-        setData({ category : "" });
+        setChooseCat("Select Category");
         setData({ email : "" });
         setData({ firstName : "" });
         setData({ lastName : "" });
@@ -211,15 +218,17 @@ const QuestionForm = ({error, setOption}) => {
         error={error}
       />
 
-      <Dropdown onPress={onChangeCategoryHandler} value={data.category} />
+      <Dropdown onPress={onChangeCategoryHandler} variable={chooseCat} setVariable={setChooseCat} options={Object.values(CATEGORIES)} 
+      // icons={["🏢", "👪", "🏙️", "🛏️", "💬", "💰", "💲", "👩🏻‍💼"]} 
+      />
 
-      <Input
+      {/* <Input
         onChangeText={onChangeCategoryHandler}
         label="Category"
         value={data.category}
         placeholder="Condo Questions"
         error={error}
-      />
+      /> */}
 
       <Input
         onChangeText={onChangeEmailHandler}
@@ -255,7 +264,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     backgroundColor: "white",
     justifyContent: "center",
-    paddingVertical: 20,
   },
   labelText: {
     color: "#333",

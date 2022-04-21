@@ -112,6 +112,9 @@ const QnAQnsAnswer = () => {
           <View style={customstyles.primaryButton}>
                 <PrimaryButton text= "Ask Your Question" onPress={onAskQnPressed} type="Primary"/>
           </View>
+
+
+          
           <ModalPopUp visible={isModalVisible}>
           
           <Pressable onPress={handleClose}>
