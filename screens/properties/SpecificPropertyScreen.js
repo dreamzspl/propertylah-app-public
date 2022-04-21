@@ -1,24 +1,29 @@
-import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
-import { styles, textStyles } from "../../styles/common";
-import { FontAwesome } from "@expo/vector-icons";
-import Colors from "../../constants/colors";
-import customStyles from "./propertyStyles.js";
+//* Components
+import { View, Text, Image, ScrollView, Pressable } from "react-native";
 
+//* Styles and Icons
+import { styles, textStyles } from "../../styles/common";
+import customStyles from "./propertyStyles.js";
+import { FontAwesome } from "@expo/vector-icons"; 
+
+//! Use route.params.props from PropertiesScreen to fill in
 function SpecificPropertiesScreen({route}) {
     let data = route.params.props;
     let tempDate = new Date(route.params.props.createdAt).toDateString();
     let date = `${tempDate.slice(4,10)}, ${tempDate.slice(11)}`
     return (
         <ScrollView >
-            <View style={[styles.container, {width:'100%'}]}>
-                <View style={[customStyles.borderBottomWidth, {width:'100%'}]}>
+            <View style={styles.container}>
+                <View style={customStyles.borderBottomWidth}>
                     <Text style={[customStyles.fontBig, customStyles.textContainer]}>{data.propertyName}</Text>
                     <ScrollView pagingEnabled={true} horizontal={true} showsHorizontalScrollIndicator={false} style={customStyles.imageContainer}>
                         <Image style={customStyles.image} source={require('../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-1.jpg')}></Image>
                         <Image style={customStyles.image} source={require('../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-2.jpg')}></Image>
                         <Image style={customStyles.image} source={require('../../assets/images/property-images/Sky-Vue-Ang-Mo-Kio-Bishan-Thomson-Singapore-3.jpg')}></Image>
                     </ScrollView>
-                    <Text style={[customStyles.fontBig, customStyles.textContainer]}>{data.price} /mo</Text>
+                    {data.saleType === 'Rent'? 
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price} /mo</Text>:
+                        <Text style={[customStyles.fontBig, customStyles.textContainer]}>S$ {data.price}</Text>}
                     <View style={[customStyles.horizontal, customStyles.textContainer]}>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBedrooms} <FontAwesome name='bed' /></Text>
                         <Text style={[textStyles.bodyText, customStyles.fontSmall]}>{data.noOfBaths} <FontAwesome name='bathtub' /></Text>
@@ -60,7 +65,7 @@ function SpecificPropertiesScreen({route}) {
                 </View>
             </View>
             <View style={styles.container}>
-                <Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.fontSize]}>{data.User.firstName}{data.User.lastName}</Text>
+                <Text style={[textStyles.bodyText, customStyles.textPadding, customStyles.fontSize]}>{data.User.firstName} {data.User.lastName}</Text>
                 <View style={[customStyles.justifyContainerMid]}>
                     <Pressable style={[customStyles.width13]}><Text style={[textStyles.bodyText, customStyles.contactButtonSpecificProperty]}>Whatsapp</Text></Pressable>
                     <Pressable style={[customStyles.width13]}><Text style={[textStyles.bodyText, customStyles.contactButtonSpecificProperty]}>SMS</Text></Pressable>

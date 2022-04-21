@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native"; 
 import { styles } from "../../styles/common";
+import Colors from "../../constants/colors";
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -118,6 +119,40 @@ const customStyles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         color: 'white',
+    },
+    ListTextInput:{
+        width: (windowWidth-styles.container.paddingHorizontal*2)/2,
+        height: 60,
+        fontSize: 18,
+        padding: 5,
+        borderWidth: 1,
+        marginVertical: 1,
+    },
+    headerButtonsContainer:{
+        marginBottom: 10,
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+    },
+    headerButtons:{
+        width: '40%',
+        height: 45,
+        alignSelf: 'center',
+        fontSize: 15,
+        marginTop: 5,
+        paddingTop: 3,
+        textAlign: 'center',
+        borderWidth: 1,
+        borderRadius: 10,
+        color: 'white',
+    },
+    clearFilterButton:{
+        backgroundColor:'grey', 
+        marginRight: styles.container.paddingHorizontal,
+    },
+    CRUDHeader:{
+        backgroundColor:Colors.primary500
     },
 });
 

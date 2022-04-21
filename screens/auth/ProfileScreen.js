@@ -18,14 +18,6 @@ function ProfileScreen() {
       <Text style={textStyles.bodyText}>id: {authCtx.id}</Text>
       <Text style={textStyles.bodyText}>firstName: {authCtx.firstName}</Text>
       <Text style={textStyles.bodyText}>role: {authCtx.role}</Text>
-      <Text style={textStyles.bodyText}>token: {authCtx.token}</Text>
-      <FormButton
-        onPress={() => {
-          authCtx.logout();
-        }}
-      >
-        Test Log out
-      </FormButton>
     </View>
   );
 }

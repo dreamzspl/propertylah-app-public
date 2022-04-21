@@ -1,5 +1,6 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Button } from "react-native";
 
+import DrawerMenu from "../components/nav/DrawerMenu";
 import Colors from "../constants/colors";
 
 // General Styles
@@ -47,7 +48,7 @@ export const helperStyles = StyleSheet.create({
 });
 
 // Navigation Styles
-export const drawerScreenOptions1 = {
+export const drawerScreenOptions = {
   headerShown: false,
   sceneContainerStyle: { backgroundColor: "white" },
   drawerContentStyle: { backgroundColor: "white" },
@@ -56,7 +57,7 @@ export const drawerScreenOptions1 = {
   drawerActiveBackgroundColor: Colors.primary500,
 };
 
-export const drawerScreenOptions = {
+export const drawerScreenOptionsOld = {
   headerStyle: { backgroundColor: Colors.primary500 },
   headerTitleStyle: { fontFamily: "rubik-bold" },
   headerTintColor: "white",
@@ -65,4 +66,59 @@ export const drawerScreenOptions = {
   drawerInactiveTintColor: Colors.primary500,
   drawerActiveTintColor: "white",
   drawerActiveBackgroundColor: Colors.primary500,
+};
+
+// for main Stack.Navigator
+export const stackNavigatorScreenOptions = {
+  headerStyle: { backgroundColor: Colors.primary500 },
+  headerTitleStyle: { fontFamily: "rubik-bold" },
+  headerTintColor: "white",
+  sceneContainerStyle: { backgroundColor: "white" },
+  drawerContentStyle: { backgroundColor: "white" },
+  drawerInactiveTintColor: Colors.primary500,
+  drawerActiveTintColor: "white",
+  drawerActiveBackgroundColor: Colors.primary500,
+};
+
+// for initial Stack.Screen
+export const stackInitialScreenOptions = {
+  headerStyle: { backgroundColor: Colors.primary500 },
+  headerTitleStyle: { fontFamily: "rubik-bold" },
+  headerTintColor: "white",
+  sceneContainerStyle: { backgroundColor: "white" },
+  drawerContentStyle: { backgroundColor: "white" },
+  drawerInactiveTintColor: Colors.primary500,
+  drawerActiveTintColor: "white",
+  drawerActiveBackgroundColor: Colors.primary500,
+  headerLeft: () => <DrawerMenu />,
+};
+
+export const stackScreenOptionsHamburger = {
+  headerStyle: { backgroundColor: Colors.primary500 },
+  headerTitleStyle: { fontFamily: "rubik-bold" },
+  headerTintColor: "white",
+  sceneContainerStyle: { backgroundColor: "white" },
+  drawerContentStyle: { backgroundColor: "white" },
+  drawerInactiveTintColor: Colors.primary500,
+  drawerActiveTintColor: "white",
+  drawerActiveBackgroundColor: Colors.primary500,
+  headerLeft: () => <DrawerMenu />,
+};
+
+export const stackScreenOptionsOld = {
+  headerStyle: { backgroundColor: Colors.primary500 },
+  headerTitleStyle: { fontFamily: "rubik-bold" },
+  headerTintColor: "white",
+  sceneContainerStyle: { backgroundColor: "white" },
+  drawerContentStyle: { backgroundColor: "white" },
+  drawerInactiveTintColor: Colors.primary500,
+  drawerActiveTintColor: "white",
+  drawerActiveBackgroundColor: Colors.primary500,
+  headerLeft: () => (
+    <Button
+      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+      title="Menu"
+      color="#fff"
+    />
+  ),
 };

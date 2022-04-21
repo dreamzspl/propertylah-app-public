@@ -5,10 +5,9 @@ import customStyles from '../propertyStyles';
 import { styles, textStyles } from "../../../styles/common";
 import API from '../API.js'
 import DropdownList from '../../../components/UI/DropdownList';
+import { AuthContext } from '../../../store/auth-context';
 
-//todo add seller ID
-
-const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{ //todo add sellerid
+const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{
     if(saleType === 'Select One' || tenure === 'Select One' || propertyType === 'Select One'){
         window.alert('All Fields are required')
         return
@@ -39,7 +38,7 @@ const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, pr
             "floorsize" : floorsize,
             "propertyType" : propertyType,
             "TOPYear" : TOPYear,
-            "sellerId": 1, // todo need to add seller id based on login
+            "sellerId": sellerId,
             })
             if(result.status === 200){
                 window.alert(`Property created`)
@@ -50,7 +49,6 @@ const validateAndSubmit = (saleType, tenure, propertyName, address, postcode, pr
             return error
         }
     })();
-
     return status
 }
 
@@ -66,7 +64,8 @@ const AddProperty = ()=>{
     const [floorsize, setFloorsize] = React.useState('');
     const [propertyType, setPropertyType] = React.useState('Select One');
     const [TOPYear, setTOPYear] = React.useState('');
-    // const sellerId = //todo add this
+    const authCtx = React.useContext(AuthContext);
+    const sellerId = authCtx.id;
     
     const setInitial = ()=>{
         setSaleType('Select One');
@@ -85,7 +84,7 @@ const AddProperty = ()=>{
         <ScrollView>
             <View style={[styles.container,customStyles.backgroundColor]}>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Sale Type</Text>
+                    <Text>Sale/Rent</Text>
                     <DropdownList variable={saleType} setVariable={setSaleType} options={['Rent', 'Sale']}/>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
@@ -115,14 +114,14 @@ const AddProperty = ()=>{
                     onChangeText={number=>setPrice(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bedrooms</Text>
+                    <Text>Bedrooms</Text>
                     <TextInput 
                     value={noOfBedrooms.toString()}
                     placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} 
                     onChangeText={number=>setNoOfBedrooms(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bathrooms</Text>
+                    <Text>Bathrooms</Text>
                     <TextInput 
                     value={noOfBaths.toString()}
                     placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} 
@@ -147,7 +146,7 @@ const AddProperty = ()=>{
                     onChangeText={number=>setTOPYear(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <Button style={[customStyles.resultButton]} mode="contained" color='red' onPress={async ()=>{
-                    let status = await validateAndSubmit(saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear); //todo add sellerid
+                    let status = await validateAndSubmit(saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId);
                     if(status === 200){
                         setInitial();
                     }

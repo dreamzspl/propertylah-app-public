@@ -5,10 +5,9 @@ import customStyles from '../propertyStyles';
 import { styles, textStyles } from "../../../styles/common";
 import API from '../API.js'
 import DropdownList from '../../../components/UI/DropdownList';
+import { AuthContext } from '../../../store/auth-context';
 
-//todo add seller ID
-
-const validateAndSubmit = (propertyId, saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{ //todo add sellerid
+const validateAndSubmit = (propertyId, saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId)=>{
     if(saleType === 'Select One' || tenure === 'Select One' || propertyType === 'Select One'){
         window.alert('All Fields are required')
         return
@@ -25,6 +24,7 @@ const validateAndSubmit = (propertyId, saleType, tenure, propertyName, address, 
         window.alert('TOPYear must be in the format of YYYY')
         return
     }
+
     let status = (async ()=>{
         try{
             const result = await API.patch(`/properties/${propertyId}`, {
@@ -39,14 +39,14 @@ const validateAndSubmit = (propertyId, saleType, tenure, propertyName, address, 
             "floorsize" : floorsize,
             "propertyType" : propertyType,
             "TOPYear" : TOPYear,
-            "sellerId": 1, // todo need to add seller id based on login
+            "sellerId": sellerId,
             })
             if(result.status === 200){
                 window.alert(`Property Edited`)
                 return result;
             }
         }catch(error){
-            window.alert('There was an error processing your request')
+            window.alert(error.message)
             return error
         }
     })();
@@ -68,7 +68,7 @@ const EditProperty = ({route, navigation})=>{
     const [propertyType, setPropertyType] = React.useState(`${propertyEdit.propertyType}`);
     const [TOPYear, setTOPYear] = React.useState(`${propertyEdit.TOPYear}`);
     const propertyId = propertyEdit.id
-    // const sellerId = //todo add this
+    const sellerId = React.useContext(AuthContext).id;
 
     React.useEffect(async()=>{
         setPropertyEdit(route.params.property)
@@ -79,7 +79,7 @@ const EditProperty = ({route, navigation})=>{
             <View style={[styles.container,customStyles.backgroundColor]}>
                 <Text>Modifying {propertyEdit.propertyName}</Text>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Sale Type</Text>
+                    <Text>Sale/Rent</Text>
                     <DropdownList variable={saleType} setVariable={setSaleType} options={['Rent', 'Sale']}/>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
@@ -109,14 +109,14 @@ const EditProperty = ({route, navigation})=>{
                     onChangeText={number=>setPrice(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bedrooms</Text>
+                    <Text>Bedrooms</Text>
                     <TextInput 
                     value={noOfBedrooms.toString()}
                     placeholder='No of Bedrooms' keyboardType='numeric' style={customStyles.inputText} 
                     onChangeText={number=>setNoOfBedrooms(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <View style={customStyles.filterHorizontalContainer}>
-                    <Text>Number of Bathrooms</Text>
+                    <Text>Bathrooms</Text>
                     <TextInput 
                     value={noOfBaths.toString()}
                     placeholder='No of Bathrooms' keyboardType='numeric' style={customStyles.inputText} 
@@ -141,9 +141,9 @@ const EditProperty = ({route, navigation})=>{
                     onChangeText={number=>setTOPYear(number===""? "":parseInt(number))}></TextInput>
                 </View>
                 <Button style={[customStyles.resultButton]} mode="contained" color='red' onPress={async ()=>{
-                    let result = await validateAndSubmit(propertyId, saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear); //todo add sellerid
+                    let result = await validateAndSubmit(propertyId, saleType, tenure, propertyName, address, postcode, price, noOfBedrooms, noOfBaths, floorsize, propertyType, TOPYear, sellerId);
                     if(result.status === 200){
-                        navigation.navigate('PropertyServicesScreen', {props: result.data.data})
+                        navigation.navigate('PropertyServicesScreen', {props: result.data.data, path:'EditProperty'})
                     }
                 }}>Edit Property</Button>
             </View>
