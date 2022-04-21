@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { styles, textStyles, helperStyles } from "../../styles/common";
+import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import Colors from "../../constants/colors";
 import FormButton from "../../components/UI/FormButton";
 import { signupUser } from "../../utils/auth";
@@ -44,91 +45,93 @@ function SignupScreen({ navigation }) {
     )
       return Alert.alert("Validation Error", "Fields cannot be empty!");
 
+    setIsSigningUp(true);
     // sign up
     try {
       const { id, firstName, role, token } = await signupUser(inputs);
       authCtx.authenticate(id, firstName, role, token);
-
       // resetFormHandler();
-
-      Alert.alert("Sign Up Success!", "Logging you in");
+      // Alert.alert("Sign Up Success!", "Logging you in");
     } catch (error) {
       Alert.alert("Sign Up Error!", error.message);
     }
+    setIsSigningUp(false);
   }
 
   function loginLinkHandler() {
     navigation.replace("Login");
   }
 
-  return (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView>
-        <Text style={textStyles.headerText}>Sign Up</Text>
-        <Text style={[textStyles.bodyText, helperStyles.mb20]}>
-          For access to more personalized functions and saved searches, sign up
-          for a FREE account today!
-        </Text>
-        <Text style={[textStyles.bodyText, helperStyles.mb20]}>
-          Already a member?
-          <Text style={textStyles.linkText} onPress={loginLinkHandler}>
-            {" "}
-            Log in{" "}
+  if (isSigningUp) return <LoadingOverlay message="Signing up..." />;
+  else
+    return (
+      <View style={styles.container}>
+        <KeyboardAwareScrollView>
+          <Text style={textStyles.headerText}>Sign Up</Text>
+          <Text style={[textStyles.bodyText, helperStyles.mb20]}>
+            For access to more personalized functions and saved searches, sign
+            up for a FREE account today!
           </Text>
-          instead.
-        </Text>
-        <Text style={customStyles.labelText}>First Name</Text>
-        <View style={[customStyles.inputField, helperStyles.mb20]}>
-          <TextInput
-            style={customStyles.inputText}
-            placeholder="Enter your first name"
-            autoCorrect={false}
-            onChangeText={(text) => inputHandler("firstName", text)}
-            name="firstName"
-            value={inputs.firstName || ""}
-          />
-        </View>
-        <Text style={customStyles.labelText}>Last Name</Text>
-        <View style={[customStyles.inputField, helperStyles.mb20]}>
-          <TextInput
-            style={customStyles.inputText}
-            placeholder="Enter your last name"
-            autoCorrect={false}
-            onChangeText={(text) => inputHandler("lastName", text)}
-            name="lastName"
-            value={inputs.lastName || ""}
-          />
-        </View>
-        <Text style={customStyles.labelText}>Email</Text>
-        <View style={[customStyles.inputField, helperStyles.mb20]}>
-          <TextInput
-            style={customStyles.inputText}
-            placeholder="Enter your email"
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => inputHandler("email", text)}
-            name="email"
-            value={inputs.email || ""}
-          />
-        </View>
-        <Text style={customStyles.labelText}>Password</Text>
-        <View style={[customStyles.inputField, helperStyles.mb20]}>
-          <TextInput
-            style={customStyles.inputText}
-            placeholder="Enter your password"
-            secureTextEntry={true}
-            onChangeText={(text) => inputHandler("password", text)}
-            name="password"
-            value={inputs.password || ""}
-          />
-        </View>
-        <View style={customStyles.buttonsContainer}>
-          <FormButton onPress={resetFormHandler}>Reset</FormButton>
-          <FormButton onPress={signUpBtnHandler}>Sign Up</FormButton>
-        </View>
-      </KeyboardAwareScrollView>
-    </View>
-  );
+          <Text style={[textStyles.bodyText, helperStyles.mb20]}>
+            Already a member?
+            <Text style={textStyles.linkText} onPress={loginLinkHandler}>
+              {" "}
+              Log in{" "}
+            </Text>
+            instead.
+          </Text>
+          <Text style={customStyles.labelText}>First Name</Text>
+          <View style={[customStyles.inputField, helperStyles.mb20]}>
+            <TextInput
+              style={customStyles.inputText}
+              placeholder="Enter your first name"
+              autoCorrect={false}
+              onChangeText={(text) => inputHandler("firstName", text)}
+              name="firstName"
+              value={inputs.firstName || ""}
+            />
+          </View>
+          <Text style={customStyles.labelText}>Last Name</Text>
+          <View style={[customStyles.inputField, helperStyles.mb20]}>
+            <TextInput
+              style={customStyles.inputText}
+              placeholder="Enter your last name"
+              autoCorrect={false}
+              onChangeText={(text) => inputHandler("lastName", text)}
+              name="lastName"
+              value={inputs.lastName || ""}
+            />
+          </View>
+          <Text style={customStyles.labelText}>Email</Text>
+          <View style={[customStyles.inputField, helperStyles.mb20]}>
+            <TextInput
+              style={customStyles.inputText}
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={(text) => inputHandler("email", text)}
+              name="email"
+              value={inputs.email || ""}
+            />
+          </View>
+          <Text style={customStyles.labelText}>Password</Text>
+          <View style={[customStyles.inputField, helperStyles.mb20]}>
+            <TextInput
+              style={customStyles.inputText}
+              placeholder="Enter your password"
+              secureTextEntry={true}
+              onChangeText={(text) => inputHandler("password", text)}
+              name="password"
+              value={inputs.password || ""}
+            />
+          </View>
+          <View style={customStyles.buttonsContainer}>
+            <FormButton onPress={resetFormHandler}>Reset</FormButton>
+            <FormButton onPress={signUpBtnHandler}>Sign Up</FormButton>
+          </View>
+        </KeyboardAwareScrollView>
+      </View>
+    );
 }
 
 export default SignupScreen;
