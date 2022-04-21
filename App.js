@@ -18,9 +18,10 @@ import ArticlesScreen from "./screens/articles/ArticlesScreen";
 import PropertiesScreen from "./screens/properties/PropertiesScreen";
 import QnAScreen from "./screens/qna/QnAScreen";
 import PropertyCRUD from "./screens/properties/CRUD/PropertyCRUD";
-
+import AdminScreen from "./screens/admin/AdminScreen";
 import ProfileScreen from "./screens/auth/ProfileScreen";
 import SampleScreen from "./screens/sample/SampleScreen";
+import CustomDrawer from "./components/nav/CustomDrawer";
 
 import AuthContextProvider, { AuthContext } from "./store/auth-context";
 import {
@@ -37,12 +38,12 @@ function AuthStack({ navigation }) {
   return (
     <Stack.Navigator screenOptions={stackNavigatorScreenOptions}>
       <Stack.Screen
-        name="Login"
+        name="Log In"
         component={LoginScreen}
         options={stackScreenOptionsHamburger}
       />
       <Stack.Screen
-        name="Signup"
+        name="Sign Up"
         component={SignupScreen}
         options={stackScreenOptionsHamburger}
       />
@@ -92,6 +93,7 @@ function Navigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
+        drawerContent={(props) => <CustomDrawer {...props} />}
         screenOptions={drawerScreenOptions}
         initialRouteName="Home"
       >
@@ -130,11 +132,19 @@ function Navigation() {
             options={{
               title: "My Listed Properties",
               drawerIcon: ({ color, size }) => (
-                <Ionicons
-                  color={color}
-                  size={size}
-                  name="person-circle-outline"
-                />
+                <Ionicons color={color} size={size} name="albums-outline" />
+              ),
+            }}
+          />
+        )}
+        {authCtx.isAuthenticated && authCtx.role === "admin" && (
+          <Drawer.Screen
+            name="ManageUsers"
+            component={AdminScreen}
+            options={{
+              title: "User Management",
+              drawerIcon: ({ color, size }) => (
+                <Ionicons color={color} size={size} name="albums-outline" />
               ),
             }}
           />
@@ -188,8 +198,6 @@ function Navigation() {
           />
         )}
       </Drawer.Navigator>
-      {/* {!authCtx.isAuthenticated && <GuestDrawer />}
-      {authCtx.isAuthenticated && <MemberDrawer />} */}
     </NavigationContainer>
   );
 }

@@ -13,8 +13,8 @@ function ProfileScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={textStyles.headerText}>Profile Screen</Text>
-      <Text style={textStyles.bodyText}>Update your profile here.</Text>
+      <Text style={textStyles.headerText}>My Profile</Text>
+      <Text style={textStyles.bodyText}>Welcome, {authCtx.firstName}!</Text>
       <Text style={textStyles.bodyText}>id: {authCtx.id}</Text>
       <Text style={textStyles.bodyText}>firstName: {authCtx.firstName}</Text>
       <Text style={textStyles.bodyText}>role: {authCtx.role}</Text>

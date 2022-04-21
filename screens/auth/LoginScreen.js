@@ -52,7 +52,7 @@ function LoginScreen({ navigation }) {
   }
 
   function signupLinkHandler() {
-    navigation.replace("Signup");
+    navigation.replace("Sign Up");
   }
 
   if (isLoggingIn) return <LoadingOverlay message="Logging in..." />;
