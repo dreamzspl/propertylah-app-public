@@ -150,7 +150,7 @@ const QnList = () => {
 const SeeCommonAnswer = () => {
     const navigation = useNavigation();
   const onTopicPressed = async () => {
-    navigation.navigate("ListTopicAns");
+    navigation.navigate("List of Answers");
     console.warn("Topic pressed.");
   }
   return (
@@ -173,7 +173,7 @@ const QuestionList = ({ name = 'anonymous', category, dateOfQuestion, input, vie
     }
     
     const onTopicPressed = async () => {
-    navigation.navigate("QnAQnsAnswer");
+    navigation.navigate("List of Answers");
     console.warn("Topic pressed.");
   }
   const navigation = useNavigation();
@@ -214,14 +214,6 @@ const ListTopicQns = () => {
       <QuestionHeader />
           <SeeCommonAnswer />
           <QnList />
-          <QuestionList
-              name='anynomous'
-              category='Condo Question'
-              dateOfQuestion='15 apr 2022'
-              input='This is a test question, just tyring it out'
-              views='5'
-              answers='2'
-          />
           
     </ScrollView>
   )

@@ -184,14 +184,6 @@ const AnswerForm = ({error, setOption}) => {
       // icons={["🏢", "👪", "🏙️", "🛏️", "💬", "💰", "💲", "👩🏻‍💼"]} 
       />
 
-      {/* <Input
-        onChangeText={onChangeCategoryHandler}
-        label="Category"
-        value={data.category}
-        placeholder="Condo Questions"
-        error={error}
-      /> */}
-
       <Input
         onChangeText={onChangeEmailHandler}
         label="Email"
@@ -246,10 +238,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top', 
     alignSelf: "stretch",   
     },  
-  commonAns: {
-    paddingLeft: 10,
-    margin: 10
-    }
+  
 });
 
 

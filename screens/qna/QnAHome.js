@@ -16,6 +16,8 @@ import Dropdown from "../../components/UI/Dropdown";
 
 import customStyles from "./QnAStyles";
 
+
+
 export default function QnAHome() { 
   const [ loading, setLoading ] = useState(false);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
@@ -23,7 +25,7 @@ export default function QnAHome() {
 
   // Topic cards function
   const onTopicPressed = async () => {
-    navigation.navigate("ListTopicQns");
+    navigation.navigate('List of Questions');
     // console.warn("Topic pressed.");
   }
 
