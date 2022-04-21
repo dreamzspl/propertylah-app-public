@@ -14,7 +14,7 @@ const initValues = {
   password: "",
 };
 
-function LoginScreen({ onChoose }) {
+function LoginScreen({ navigation }) {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [inputs, setInputs] = useState(initValues);
 
@@ -49,7 +49,7 @@ function LoginScreen({ onChoose }) {
   }
 
   function signupLinkHandler() {
-    onChoose("signup");
+    navigation.replace("Signup");
   }
 
   return (

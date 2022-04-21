@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -7,6 +7,7 @@ import { styles, textStyles, helperStyles } from "../../styles/common";
 import Colors from "../../constants/colors";
 import FormButton from "../../components/UI/FormButton";
 import { signupUser } from "../../utils/auth";
+import { AuthContext } from "../../store/auth-context";
 
 const initValues = {
   firstName: "",
@@ -15,9 +16,11 @@ const initValues = {
   password: "",
 };
 
-function SignupScreen({ onChoose }) {
+function SignupScreen({ navigation }) {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [inputs, setInputs] = useState(initValues);
+
+  const authCtx = useContext(AuthContext);
 
   function resetFormHandler() {
     setInputs(initValues);
@@ -43,10 +46,11 @@ function SignupScreen({ onChoose }) {
 
     // sign up
     try {
-      const token = await signupUser(inputs);
-      console.log("token", token);
+      const { id, firstName, role, token } = await signupUser(inputs);
+      authCtx.authenticate(id, firstName, role, token);
+
       // resetFormHandler();
-      // store token in context
+
       Alert.alert("Sign Up Success!", "Logging you in");
     } catch (error) {
       Alert.alert("Sign Up Error!", error.message);
@@ -54,7 +58,7 @@ function SignupScreen({ onChoose }) {
   }
 
   function loginLinkHandler() {
-    onChoose("login");
+    navigation.replace("Login");
   }
 
   return (

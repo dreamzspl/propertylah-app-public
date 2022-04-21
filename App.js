@@ -1,20 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState, useLayoutEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Button } from "react-native";
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-} from "@react-navigation/native";
-
-import { createStackNavigator } from "@react-navigation/stack";
+import { Text, Alert } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import * as React from 'react';
-
-import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import * as React from "react";
 
 // Screens
 import AuthScreen from "./screens/auth/AuthScreen";
@@ -27,224 +20,67 @@ import QnAScreen from "./screens/qna/QnAScreen";
 import PropertyCRUD from "./screens/properties/CRUD/PropertyCRUD";
 
 import ProfileScreen from "./screens/auth/ProfileScreen";
+import SampleScreen from "./screens/sample/SampleScreen";
 
-import { styles, textStyles, drawerScreenOptions } from "./styles/common";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
+import {
+  drawerScreenOptions,
+  stackNavigatorScreenOptions,
+  stackScreenOptionsHamburger,
+} from "./styles/common";
 import Colors from "./constants/colors";
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-function AuthStack() {
+function AuthStack({ navigation }) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
+    <Stack.Navigator screenOptions={stackNavigatorScreenOptions}>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={stackScreenOptionsHamburger}
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={stackScreenOptionsHamburger}
+      />
     </Stack.Navigator>
   );
 }
 
-function GuestStack() {}
-
-function GuestDrawer() {
+function AuthenticatedStack() {
   return (
-    <Drawer.Navigator
-      screenOptions={drawerScreenOptions}
-      initialRouteName="Home"
-    >
-      {/* <Drawer.Screen
-        name="AuthStack"
-        component={AuthStack}
-        options={{
-          title: "Sign up or Log in",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="key-outline" />
-          ),
-        }}
-      /> */}
-      <Drawer.Screen
-        name="Auth"
-        component={AuthScreen}
-        options={{
-          title: "Sign up or Log in",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="key-outline" />
-          ),
-        }}
+    <Stack.Navigator screenOptions={stackNavigatorScreenOptions}>
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={stackScreenOptionsHamburger}
       />
-      <Drawer.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: "Home",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="list" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Properties"
-        component={PropertiesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="home-outline" />
-          ),
-        }}
-      />
-      {/* //! remove after testing */}
-      <Drawer.Screen
-        name="My Properties"
-        component={PropertyCRUD}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="home-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Q & A"
-        component={QnAScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="people" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Articles"
-        component={ArticlesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="md-newspaper-outline" />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
+    </Stack.Navigator>
   );
 }
 
-// isAuthenticated === true && role === "member"
-function MemberDrawer() {
-  return (
-    <Drawer.Navigator
-      screenOptions={drawerScreenOptions}
-      initialRouteName="Home"
-    >
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: "Profile",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="person-circle-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: "Home",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="list" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Properties"
-        component={PropertiesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="home-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Q & A"
-        component={QnAScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="people" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Articles"
-        component={ArticlesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="md-newspaper-outline" />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
-  );
-}
+function Logout({ navigation }) {
+  const authCtx = useContext(AuthContext);
 
-// isAuthenticated === true && role === "agent"
-function AgentDrawer() {
-  return (
-    <Drawer.Navigator
-      screenOptions={drawerScreenOptions}
-      initialRouteName="Home"
-    >
-      <Drawer.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: "Profile",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="person-circle-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          title: "Home",
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="list" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Properties"
-        component={PropertiesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="home-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="My Properties"
-        component={PropertyCRUD}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="home-outline" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Q & A"
-        component={QnAScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="people" />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="Articles"
-        component={ArticlesScreen}
-        options={{
-          drawerIcon: ({ color, size }) => (
-            <Ionicons color={color} size={size} name="md-newspaper-outline" />
-          ),
-        }}
-      />
-    </Drawer.Navigator>
-  );
+  authCtx.logout();
+  // FIXME: logout bug - screen is not unloaded
+  // load a modal/actual screen here instead
+  // useEffect(() => {
+  //   Alert.alert("Logout", "Are you sure you want to log out?", [
+  //     {
+  //       text: "Cancel (bug)",
+  //       onPress: () => {
+  //         navigation.goBack();
+  //       },
+  //       style: "cancel",
+  //     },
+  //     { text: "Yes", onPress: () => authCtx.logout() },
+  //   ]);
+  // }, [navigation]);
+  return null;
 }
 
 function Navigation() {
@@ -252,9 +88,89 @@ function Navigation() {
 
   return (
     <NavigationContainer>
-      {!authCtx.isAuthenticated && <GuestDrawer />}
-      {authCtx.isAuthenticated && <MemberDrawer />}
-      {/* {authCtx.isAuthenticated && authCtx.role === "agent" && <AgentDrawer />} */}
+      <Drawer.Navigator
+        screenOptions={drawerScreenOptions}
+        initialRouteName="Home"
+      >
+        {!authCtx.isAuthenticated && (
+          <Drawer.Screen
+            name="AuthStack"
+            component={AuthStack}
+            options={{
+              title: "Sign up or Log in",
+              drawerIcon: ({ color, size }) => (
+                <Ionicons color={color} size={size} name="key-outline" />
+              ),
+            }}
+          />
+        )}
+        {authCtx.isAuthenticated && (
+          <Drawer.Screen
+            name="Member"
+            component={AuthenticatedStack}
+            options={{
+              title: "Profile",
+              drawerIcon: ({ color, size }) => (
+                <Ionicons
+                  color={color}
+                  size={size}
+                  name="person-circle-outline"
+                />
+              ),
+            }}
+          />
+        )}
+        <Drawer.Screen
+          name="Properties"
+          component={PropertiesScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons color={color} size={size} name="home-outline" />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Q & A"
+          component={QnAScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons color={color} size={size} name="people" />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Articles"
+          component={ArticlesScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons color={color} size={size} name="md-newspaper-outline" />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="Sample"
+          component={SampleScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons color={color} size={size} name="leaf-outline" />
+            ),
+          }}
+        />
+        {authCtx.isAuthenticated && (
+          <Drawer.Screen
+            name="Logout"
+            component={Logout}
+            options={{
+              title: "Logout",
+              drawerIcon: ({ color, size }) => (
+                <Ionicons color={color} size={size} name="log-out-outline" />
+              ),
+            }}
+          />
+        )}
+      </Drawer.Navigator>
+      {/* {!authCtx.isAuthenticated && <GuestDrawer />}
+      {authCtx.isAuthenticated && <MemberDrawer />} */}
     </NavigationContainer>
   );
 }
