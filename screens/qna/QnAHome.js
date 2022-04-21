@@ -19,7 +19,7 @@ import customStyles from "./QnAStyles";
 export default function QnAHome() { 
   const [ loading, setLoading ] = useState(false);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
-  const [ noOfQuestions, setNoOfQuestions ] = useState(0);
+  // const [ noOfQuestions, setNoOfQuestions ] = useState(0);
 
   // Topic cards function
   const onTopicPressed = async () => {

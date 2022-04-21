@@ -15,7 +15,7 @@ const QnAScreen = () => {
         {/* insert this within <Stack.Navigator> above to hide the header ---> screenOptions={{ headerShown: false }} */}
         <Stack.Screen name="QnAHome" component={QnAHome} />
         <Stack.Screen name="ListTopicQns" component={ListTopicQns} />
-        <Stack.Screen name="QnAQnsAnswer" component={QnAQnsAnswer} />
+        <Stack.Screen name="QnAQnsAnswer" component={QnAQnsAnswer} options={({ route }) => ({ title: route.params.props.question })}/>
       </Stack.Navigator> 
   )
 }

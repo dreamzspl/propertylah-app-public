@@ -1,8 +1,7 @@
-
 import { View, Text ,ScrollView, StyleSheet, Alert, Pressable, Modal, TouchableWithoutFeedback , Keyboard} from 'react-native'
 import PrimaryButton from '../../components/UI/PrimaryButton'
 import ModalPopUp from "../../components/UI/ModalPopUp";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomInput from "../../components/UI/CustomInput";
 import { Ionicons } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
@@ -12,6 +11,7 @@ import customStyles from "./QnAStyles";
 import { MaterialIcons } from '@expo/vector-icons' 
 import AnswerForm from './AnswerForm';
 import FlatButton from '../../components/UI/FlatButton';
+import API from './API';
 
 const AnswerHeader = () => {
     return (
@@ -53,16 +53,16 @@ const AnswerList = ({name, date , answerInput}) => {
 }
 
 
-
-const QnAQnsAnswer = () => {
-    const [ loading, setLoading ] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+// main function
+const QnAQnsAnswer = ({ route }) => {
+  const [ loading, setLoading ] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   
-    const handleClose = () => setIsModalVisible(false);
+  const handleClose = () => setIsModalVisible(false);
 
-    const onAskQnPressed = () => {
+  const onAskQnPressed = () => {
     if (loading) {
-      return;
+    return;
     }
     setLoading(true);
     try {
@@ -91,11 +91,12 @@ const QnAQnsAnswer = () => {
     console.warn("'Submit' button pressed");
   }
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const addAnswer = (answer) => {
-        answer.key = Math.random().toString();
-        setModalOpen(false);
-    }
+  const [modalOpen, setModalOpen] = useState(false);
+  const addAnswer = (answer) => {
+    answer.key = Math.random().toString();
+    setModalOpen(false);
+  }
+  
   return (
     <ScrollView>
           <AnswerHeader />

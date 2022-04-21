@@ -8,12 +8,13 @@ import QuestionForm from "./QuestionForm";
 import React, { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useForm, Controller } from "react-hook-form";
+import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from '@react-navigation/native';
 import API from "./API";
 
 const QuestionHeader = () => {
   const [ loading, setLoading ] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [ isModalVisible, setIsModalVisible ] = useState(false);
   
   const handleClose = () => setIsModalVisible(false);
 
@@ -75,16 +76,18 @@ const QuestionHeader = () => {
   )
 }
 
-// QnList fetches from API
-const QnList = () => {
+// QnList fetches from API - Poh Liang
+const QnList = ({ navigation }) => {
   const [ data, setData ] = useState([]);
+  const [ fetchQnData, setFetchQnData ] = useState({});
   const [ loading, setLoading ] = useState(true);
 
-  const onTopicPressed = async () => {
-    navigation.navigate("QnAQnsAnswer");
-  }
-  const navigation = useNavigation();
-
+  // onPress question
+  // const onQnPressed = async () => {
+  //   navigation.navigate("QnAQnsAnswer");
+  // }
+  
+  // API to fetch questions
   useEffect( async () => {
     try {
       const res = await API.get('/questions');
@@ -95,6 +98,27 @@ const QnList = () => {
       console.log(err);
     }
   }, []);
+
+  // fetch qn data and onPress specific question
+  // const onQnPressed = (id) => {
+    // console.log(id);
+    // setLoading(true);
+    // const resID = API.get(`/questions/${id}`)
+    // const arr = resID.data.data;
+    // setFetchQnData(arr);
+    // console.log(fetchQnData);
+
+
+
+    //   .then((res) => res.json())
+    //   .then((json) => {
+    //     console.log(json);
+    //     setFetchQnData(json);
+    //   });
+  //   setLoading(false);
+  // }
+  
+
 
   function formattedDate(d = new Date) {
     let month = String(d.getMonth() + 1);
@@ -107,6 +131,7 @@ const QnList = () => {
     return `${day}/${month}/${year}`;
   }
   const timestamp = Date.now()
+
   return (
     <View style={customStyle.container}>
       {
@@ -134,8 +159,8 @@ const QnList = () => {
 
                 <View style={customStyle.sectionThree}>      
                   <Text style={{ color: 'grey' }}>25 views</Text>
-                  <Pressable> 
-                  <Text onPress={onTopicPressed} style={{ color:'red'}}>0 answers</Text>
+                  <Pressable onPress={() => navigation.navigate("QnAQnsAnswer", {props: qn})}> 
+                  <Text style={{ color:'red'}}>0 answers</Text>
                   </Pressable>
                 </View>
               </View>
@@ -195,11 +220,11 @@ const QuestionList = ({ name = 'anonymous', category, dateOfQuestion, input, vie
     )
 }
 
-const ListTopicQns = () => {
+const ListTopicQns = ({ navigation, route }) => {
   return (
     <ScrollView>
       <QuestionHeader />
-          <QnList />
+          <QnList navigation={navigation} />
           <QuestionList
               name='anynomous'
               category='Condo Question'
@@ -212,6 +237,7 @@ const ListTopicQns = () => {
     </ScrollView>
   )
 }
+
 const customStyle = StyleSheet.create({
     container: {
         flex: 1,
