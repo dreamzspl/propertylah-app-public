@@ -43,8 +43,8 @@ function CustomDrawer(props) {
         }}
       >
         <Image
-          source={require("../../assets/images/nav/propertylahlogo.png")}
-          style={{ width: 50, height: 50, marginRight: 20 }}
+          source={require("../../assets/images/nav/propertylahlogoV2.png")}
+          style={{ width: 93.6, height: 53.6, marginRight: 20 }}
         />
         <Text style={{ fontFamily: "rubik", fontSize: 14 }}>
           PropertyLah App v1.0.0
