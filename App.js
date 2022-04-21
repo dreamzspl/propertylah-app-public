@@ -198,8 +198,6 @@ function Navigation() {
           />
         )}
       </Drawer.Navigator>
-      {/* {!authCtx.isAuthenticated && <GuestDrawer />}
-      {authCtx.isAuthenticated && <MemberDrawer />} */}
     </NavigationContainer>
   );
 }

@@ -10,6 +10,19 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 32,
   },
+  roleContainer: {
+    backgroundColor: "#ffe3e3",
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 4,
+    width: 80,
+    textAlign: "center",
+  },
+  roleText: {
+    fontFamily: "rubik-bold",
+    textAlign: "center",
+    color: Colors.primary500,
+  },
 });
 
 // Text Styles
@@ -41,6 +54,12 @@ export const helperStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+  },
+  mb5: {
+    marginBottom: 5,
+  },
+  mb10: {
+    marginBottom: 10,
   },
   mb20: {
     marginBottom: 20,
