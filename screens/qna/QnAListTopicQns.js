@@ -56,7 +56,7 @@ const QuestionHeader = () => {
         resizeMode="contain">
           <View style={customStyle.headerContainer}>
             <PrimaryButton text= "Ask Your Question" onPress={onAskQnPressed} type="Primary"/>
-            <Text style={[textStyles.bodyText, styles.bgText]}>Condo Questions</Text> 
+            <Text style={[textStyles.headerText, styles.bgText, { color : Colors.grey500 }]}>Browse Questions</Text> 
           </View>
           <ModalPopUp visible={isModalVisible}>
             <Pressable onPress={handleClose}>
@@ -98,7 +98,7 @@ const QnList = ({ navigation }) => {
       console.log(err);
     }
   }, []);
-
+ 
   // fetch qn data and onPress specific question
   // const onQnPressed = (id) => {
     // console.log(id);
@@ -133,7 +133,7 @@ const QnList = ({ navigation }) => {
   const timestamp = Date.now()
 
   return (
-    <View style={customStyle.container}>
+    <View>
       {
         loading ? <Text>Loading ...</Text> : (
           data.map((qn) => (
@@ -143,7 +143,7 @@ const QnList = ({ navigation }) => {
                   <Text>
                     {qn.firstName} {qn.lastName} in 
                   </Text>
-                  <TouchableOpacity style={customStyle.qnTouchableOpacity}>
+                  <TouchableOpacity style={customStyles.qnTouchableOpacity}>
                     <Text style={{ color: '#961b12' }}>
                         {qn.category} 
                     </Text>
@@ -247,7 +247,7 @@ const customStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-     bgImage:{
+    bgImage:{
         justifyContent: "center",
         width: "100%",
         height: 400,
@@ -258,7 +258,6 @@ const customStyle = StyleSheet.create({
         textAlign: 'center',
         fontSize: 25,
         color: 'grey',
-        
     },
     questionContainer: {
         justifyContent: 'flex-start',
@@ -285,17 +284,6 @@ const customStyle = StyleSheet.create({
         justifyContent: 'space-between'
         
     },
-    qnTouchableOpacity:{
-        backgroundColor: '#e03d3120',
-        paddingVertical: 3,
-        paddingHorizontal: 10,
-        marginHorizontal: 5,
-        marginTop: -2,
-        borderRadius: 5,
-        alignContent: "center",
-        justifyContent: "center",
-    },
-
 })
 
 export default ListTopicQns;

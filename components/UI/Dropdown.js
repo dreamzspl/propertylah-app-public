@@ -19,8 +19,9 @@ const Dropdown = (props) => {
   return (
     
     <SafeAreaView >
+      <Text style={styles.labelText}>Category</Text>
       <List.Section style={styles.container}>
-      <List.Accordion title={props.variable} >
+      <List.Accordion titleStyle={{ color : "#333333" }} title={props.variable} >
         {choice}
       </List.Accordion>
       </List.Section>

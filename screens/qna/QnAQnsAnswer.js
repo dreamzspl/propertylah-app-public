@@ -1,4 +1,4 @@
-import { View, Text ,ScrollView, StyleSheet, Alert, Pressable, Modal, TouchableWithoutFeedback , Keyboard} from 'react-native'
+import { ImageBackground, View, Text ,ScrollView, StyleSheet, Alert, Pressable, TouchableOpacity, Modal, TouchableWithoutFeedback , Keyboard, SafeAreaView } from 'react-native'
 import PrimaryButton from '../../components/UI/PrimaryButton'
 import ModalPopUp from "../../components/UI/ModalPopUp";
 import React, { useState, useEffect } from "react";
@@ -16,11 +16,13 @@ import API from './API';
 const AnswerHeader = () => {
     return (
         <View style={customstyles.headerContainer}>
+          <ImageBackground source={require("../../assets/images/askguru/askguru-answer-hero.jpg")} style={[customStyles.bgImage, { height: 150, width: 450 }]} resizeMode="cover" >
             <View style={customstyles.ansInput}>
             <Text style={{fontSize: 13}}>AskGuru Q&A Community</Text>
             <Text style={{ fontSize: 20 }}>Get answers from PropertyGuru Experts</Text>
             <Text style={{ color: 'red', fontSize: 20 }}>in 24 Hours</Text>  
-            </View>    
+            </View>
+          </ImageBackground>    
         </View>
     )
 }
@@ -57,7 +59,11 @@ const AnswerList = ({name, date , answerInput}) => {
 const QnAQnsAnswer = ({ route }) => {
   const [ loading, setLoading ] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  
+
+  let data = route.params.props; 
+  let tempDate = new Date(route.params.props.createdAt).toDateString();
+  let date = `${tempDate.slice(4,10)}, ${tempDate.slice(11)}`
+
   const handleClose = () => setIsModalVisible(false);
 
   const onAskQnPressed = () => {
@@ -70,7 +76,7 @@ const QnAQnsAnswer = ({ route }) => {
     } catch (e) {
       Alert.alert("Oops", e.message);
     }
-    console.warn("'Ask Your Question' button pressed");
+    // console.warn("'Ask Your Question' button pressed");
     setLoading(false);
   }
   // create form values
@@ -98,59 +104,77 @@ const QnAQnsAnswer = ({ route }) => {
   }
   
   return (
+    <SafeAreaView>
     <ScrollView>
-          <AnswerHeader />
-          <QuestionList
-              category='Condo Question'
-              name='Tino'
-              date='12 Apr 2022'
-              questionAsked='This is the question asked'
-              views='2' />
-          <AnswerList
-              name='Ryan'
-              date='13 Apr 2022'
-              answerInput='This is the answer for the question' />
-          <View style={customstyles.primaryButton}>
-                <PrimaryButton text= "Ask Your Question" onPress={onAskQnPressed} type="Primary"/>
+      <View>
+        <View style={customStyles.qnContainer}>
+          <Text style={[ customStyles.qnName, { fontSize : 40 }]}>📢</Text>
+          <Text style={customStyles.qnName}>{data.firstName} {data.lastName}</Text>
+          <Text style={customStyles.qnMeta}>asked on {date}</Text>
+          <TouchableOpacity style={customStyles.qnTouchableOpacity}>
+          <Text style={{ color: '#961b12' }}>{data.category}</Text>
+          </TouchableOpacity>
+      
+          <View style={customStyles.qnBody}>
+            <Text style={customStyles.qnName}>Question:</Text>
+            <Text>{data.question}</Text>
+
           </View>
+        </View>
+
+        
+        {/* <QuestionList
+            category='Condo Question'
+            name='Tino'
+            date='12 Apr 2022'
+            questionAsked='This is the question asked'
+            views='2' />
+        <AnswerList
+            name='Ryan'
+            date='13 Apr 2022'
+            answerInput='This is the answer for the question' /> */}
+        <View style={customstyles.primaryButton}>
+              <PrimaryButton text= "Ask Your Question" onPress={onAskQnPressed} type="Primary"/>
+        </View>
+      </View>
 
 
           
-          <ModalPopUp visible={isModalVisible}>
-          
-          <Pressable onPress={handleClose}>
-            <Text style={{ alignSelf: "flex-end", paddingRight: 10, paddingTop: 10 }}>
-              <Ionicons style={customStyles.icon} name="close-circle-outline"/>
-            </Text> 
-          </Pressable>
-          <View style={customStyles.formContainer}>
-            <Text style={[textStyles.headerText, { flexWrap: "wrap" }]}>Ask Your Question</Text>
-            <Text style={[textStyles.bodyText, { marginVertical: 10 }]}>Our PropertyLah experts will answer you within 24 hours! 😎</Text>
-            <View>
-              <CustomInput label="Question" name="question" control={control} rules={{required: 'Please ask a question 😊'}} placeholder="Start with 'How', 'What', 'Where', 'Why', etc" numberOfLines={5} />
+      <ModalPopUp visible={isModalVisible}>
+      
+        <Pressable onPress={handleClose}>
+          <Text style={{ alignSelf: "flex-end", paddingRight: 10, paddingTop: 10 }}>
+            <Ionicons style={customStyles.icon} name="close-circle-outline"/>
+          </Text> 
+        </Pressable>
+        <View style={customStyles.formContainer}>
+          <Text style={[textStyles.headerText, { flexWrap: "wrap" }]}>Ask Your Question</Text>
+          <Text style={[textStyles.bodyText, { marginVertical: 10 }]}>Our PropertyLah experts will answer you within 24 hours! 😎</Text>
+          <View>
+          <CustomInput label="Question" name="question" control={control} rules={{required: 'Please ask a question 😊'}} placeholder="Start with 'How', 'What', 'Where', 'Why', etc" numberOfLines={5} />
 
-              <CustomInput label="Your email" name="email" control={control} rules={{required: 'Please provide a valid email address.'}} placeholder="email@example.com" numberOfLines={1} />
+          <CustomInput label="Your email" name="email" control={control} rules={{required: 'Please provide a valid email address.'}} placeholder="email@example.com" numberOfLines={1} />
 
-              <CustomInput label="Project Name" name="projName" control={control} placeholder="8 Riversuites" numberOfLines={1} />
+          <CustomInput label="Project Name" name="projName" control={control} placeholder="8 Riversuites" numberOfLines={1} />
 
-              <CustomInput label="Your name" name="displayName" control={control} placeholder="e.g. Jason Teo" numberOfLines={1} />
+          <CustomInput label="Your name" name="displayName" control={control} placeholder="e.g. Jason Teo" numberOfLines={1} />
 
-              <PrimaryButton text="Submit" onPress={handleSubmit(onSubmitBtnPressed)} />
+          <PrimaryButton text="Submit" onPress={handleSubmit(onSubmitBtnPressed)} />
 
-            </View>
           </View>
-          </ModalPopUp>
+        </View>
+      </ModalPopUp>
           
         <View style={customstyles.primaryButton}>
           <Modal visible={modalOpen} animationType='slide'>
               <TouchableWithoutFeedback onPress={Keyboard.dismiss()}>
               <View style={customstyles.modalContent}>
-                   <MaterialIcons
+                <MaterialIcons
               name='close'
               size={24}
               style={{...customstyles.modalToggle, ...customstyles.modalClose}}
               onPress={() => setModalOpen(false)}
-          />
+                />
                   <AnswerForm addAnswer={addAnswer}/>
                   </View>
                   </TouchableWithoutFeedback>
@@ -158,10 +182,12 @@ const QnAQnsAnswer = ({ route }) => {
               <PrimaryButton
                   text='Answer this Question'
                     onPress={() => setModalOpen(true)}
-          />
+              />
               </View>
-
+      <AnswerHeader />
     </ScrollView>
+    </SafeAreaView>
+
   )
 }
 
@@ -175,7 +201,7 @@ const customstyles = StyleSheet.create({
         backgroundColor: 'rgba(52, 52, 52, 0.3)',
         width: '100%',
         height: 150,
-        paddingLeft: 20,
+        padding: 20,
     },
     answerContainer: {
         justifyContent: 'flex-start',
