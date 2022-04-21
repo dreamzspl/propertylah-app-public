@@ -52,6 +52,7 @@ export const drawerScreenOptions = {
   headerShown: false,
   sceneContainerStyle: { backgroundColor: "white" },
   drawerContentStyle: { backgroundColor: "white" },
+  drawerLabelStyle: { fontFamily: "rubik", fontSize: 18 },
   drawerInactiveTintColor: Colors.primary500,
   drawerActiveTintColor: "white",
   drawerActiveBackgroundColor: Colors.primary500,

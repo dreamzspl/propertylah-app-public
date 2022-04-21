@@ -1,6 +1,13 @@
+import React from "react";
+import { useEffect, useState, useCallback } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer, DrawerActions } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DrawerActions,
+  useFocusEffect,
+} from "@react-navigation/native";
+import axios from "axios";
 
 import IconButton from "../../components/UI/IconButton";
 import {
@@ -13,12 +20,62 @@ import DrawerMenu from "../../components/nav/DrawerMenu";
 import Colors from "../../constants/colors";
 
 const Stack = createNativeStackNavigator();
+const API_URL = "http://68.183.183.118:4088/api/v1/articles/";
 
 function Screen1({ navigation }) {
+  const [data, setData] = useState([]);
+
+  // useFocusEffect(() => {
+  //   React.useCallback(() => {
+  //     async function getArticles() {
+  //       console.log("loading articles");
+  //       const res = await axios.get(API_URL);
+  //       setData(res.data.data);
+  //     }
+
+  //     getArticles();
+  //   }, []);
+  // });
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      console.log("Refreshed!");
+
+      async function getArticles() {
+        console.log("loading articles");
+        const res = await axios.get(API_URL);
+        setData(res.data.data);
+      }
+
+      getArticles();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  // useEffect(() => {
+  //   const API_URL = "http://68.183.183.118:4088/api/v1/articles/";
+
+  //   async function getArticles() {
+  //     console.log("loading articles");
+  //     const res = await axios.get(API_URL);
+  //     setData(res.data.data);
+  //   }
+
+  //   getArticles();
+  // }, []);
+
   return (
     <View style={styles.container}>
       <Text style={textStyles.headerText}>Sample Screen 1</Text>
       <Text style={textStyles.bodyText}>Lorem ipsum</Text>
+      {data.length > 0 &&
+        data.map((item) => (
+          <View key={item.id}>
+            <Text>Content: {item.content}</Text>
+            <Text>Review: {item.review}</Text>
+          </View>
+        ))}
       <Text
         style={[textStyles.bodyText, customStyles.customText]}
         onPress={() => navigation.navigate("Sample2")}

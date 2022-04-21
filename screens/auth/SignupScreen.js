@@ -59,7 +59,7 @@ function SignupScreen({ navigation }) {
   }
 
   function loginLinkHandler() {
-    navigation.replace("Login");
+    navigation.replace("Log In");
   }
 
   if (isSigningUp) return <LoadingOverlay message="Signing up..." />;
