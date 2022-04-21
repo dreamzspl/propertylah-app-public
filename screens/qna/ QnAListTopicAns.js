@@ -58,11 +58,10 @@ const AnswerHeader = () => {
   )
 }
 
-
 const SeeCommonQuestion = () => {
     const navigation = useNavigation();
   const onTopicPressed = async () => {
-    navigation.navigate("ListTopicQns");
+    navigation.navigate("List of Questions");
     console.warn("Topic pressed.");
   }
   return (
@@ -139,53 +138,6 @@ const AnsList = () => {
   )
 }
 
-
-
-
-
-const AnswerList = ({ name = 'anonymous', category, dateOfQuestion, input, views, answers }) => {
-    
-    const showMessage = () => {
- 
-    Alert.alert('onPress Called...');
- 
-    }
-    
-    const onTopicPressed = async () => {
-    navigation.navigate("QnAQnsAnswer");
-    console.warn("Topic pressed.");
-  }
-  const navigation = useNavigation();
-    return (
-      <ScrollView style={customStyle.container}>
-        <View style={customStyle.questionContainer}>
-          <View style={customStyle.sectionOne}>
-            <Text onPress={showMessage}>{name}</Text>
-            <Text style={{ paddingLeft: 5 }}>in</Text>
-            <TouchableOpacity>
-              <Text style={{ color: 'red' , paddingLeft:5}} onPress={showMessage}> {category}</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={customStyle.sectionOne}>
-            <Text style={{ color: 'grey', fontSize: 13 }}>asked on {dateOfQuestion}</Text>
-          </View>
-          <View style={customStyle.sectionTwo}>
-            <Text>
-              {input}
-            </Text>
-          </View>
-                
-          <View style={customStyle.sectionThree}>      
-            <Text style={{ color: 'grey' }}>{views} views</Text>
-            <Pressable  onPress={onTopicPressed}> 
-              <Text style={{ color:'red'}}>{answers} answers</Text>
-            </Pressable>
-          </View>
-                
-        </View>
-      </ScrollView>
-    )
-}
 
 const ListTopicAns = () => {
   return (
