@@ -123,6 +123,22 @@ function Navigation() {
             }}
           />
         )}
+        {authCtx.isAuthenticated && authCtx.role === "agent" && (
+          <Drawer.Screen
+            name="ManageProperty"
+            component={PropertyCRUD}
+            options={{
+              title: "Property CRUD",
+              drawerIcon: ({ color, size }) => (
+                <Ionicons
+                  color={color}
+                  size={size}
+                  name="person-circle-outline"
+                />
+              ),
+            }}
+          />
+        )}
         <Drawer.Screen
           name="Properties"
           component={PropertiesScreen}

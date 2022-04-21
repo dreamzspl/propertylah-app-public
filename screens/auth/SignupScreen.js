@@ -54,8 +54,8 @@ function SignupScreen({ navigation }) {
       // Alert.alert("Sign Up Success!", "Logging you in");
     } catch (error) {
       Alert.alert("Sign Up Error!", error.message);
+      setIsSigningUp(false);
     }
-    setIsSigningUp(false);
   }
 
   function loginLinkHandler() {
