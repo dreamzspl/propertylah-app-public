@@ -70,11 +70,6 @@ export default function QnAHome() {
   return (
     <SafeAreaProvider>
       <ScrollView>
-        <View style={styles.container}>
-          <Text style={textStyles.headerText}>Q & A Screen</Text>
-          <Text style={textStyles.bodyText}>Lorem ipsum</Text>
-          <Pressable onPress={() => navigation.navigate(`ListTopicQns`)}><Text>Press</Text></Pressable>
-        </View>
         <ImageBackground source={require("../../assets/images/askguru/askguru-hero.jpg")} style={customStyles.bgImage} resizeMode="contain">
           <View style={customStyles.ctaContainer}>
             <Text style={[textStyles.headerText, { flexWrap: "wrap", }]}>AskGuru Community</Text>

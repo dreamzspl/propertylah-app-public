@@ -11,7 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from '@react-navigation/native';
 import API from "./API";
 
-const QuestionHeader = () => {
+const AnswerHeader = () => {
   const [ loading, setLoading ] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   
@@ -29,33 +29,16 @@ const QuestionHeader = () => {
     }
     setLoading(false);
   }
-  // create form values
-  // const { control, handleSubmit, formState: { errors } } = useForm({
-  //   defaultValues: {
-  //     question: '',
-  //     topic: '',
-  //     projName: '',
-  //     displayName: '',
-  //   }
-  // });
-  // const onSubmit = data => console.log(data);
-
-  // 'Submit' button function
-  // const onSubmitBtnPressed = (data) => {
-  //   console.log(data);
-  //   setIsModalVisible(false);
-  //   console.warn("'Submit' button pressed");
-  // }
-
+  
     return (
      <ScrollView style={customStyle.container}>
       <ImageBackground
-        source={require("../../assets/images/askguru/askguru-question-hero.jpg")}
+        source={require("../../assets/images/askguru/askguru-answer-hero.jpg")}
         style={customStyle.bgImage}
         resizeMode="contain">
           <View style={customStyle.headerContainer}>
             <PrimaryButton text= "Ask Your Question" onPress={onAskQnPressed} type="Primary"/>
-            <Text style={[textStyles.bodyText, styles.bgText]}>Condo Questions</Text> 
+            <Text style={[textStyles.bodyText, styles.bgText]}>Common Answer</Text> 
           </View>
           <ModalPopUp visible={isModalVisible}>
             <Pressable onPress={handleClose}>
@@ -75,19 +58,35 @@ const QuestionHeader = () => {
   )
 }
 
-// QnList fetches from API
-const QnList = () => {
+
+const SeeCommonQuestion = () => {
+    const navigation = useNavigation();
+  const onTopicPressed = async () => {
+    navigation.navigate("ListTopicQns");
+    console.warn("Topic pressed.");
+  }
+  return (
+    <View style={customStyle.commonAns}>      
+                  <Pressable> 
+                  <Text onPress={onTopicPressed} style={{ color:'red'}}>See Common Question</Text>
+                  </Pressable>
+                </View>
+  )
+}
+
+// ansList fetches from API
+const AnsList = () => {
   const [ data, setData ] = useState([]);
   const [ loading, setLoading ] = useState(true);
 
   const onTopicPressed = async () => {
-    navigation.navigate("QnAQnsAnswer");
+    navigation.navigate("QnAListTopicQns");
   }
   const navigation = useNavigation();
 
   useEffect( async () => {
     try {
-      const res = await API.get('/questions');
+      const res = await API.get('/answers');
       setData(res.data.data);
       setLoading(false);
       return;
@@ -129,14 +128,7 @@ const QnList = () => {
                   </Text>
                 </View>
                 <View style={customStyle.sectionTwo}>
-                  <Text>{qn.question}</Text>
-                </View>
-
-                <View style={customStyle.sectionThree}>      
-                  <Text style={{ color: 'grey' }}>25 views</Text>
-                  <Pressable> 
-                  <Text onPress={onTopicPressed} style={{ color:'red'}}>0 answers</Text>
-                  </Pressable>
+                  <Text>{qn.answer}</Text>
                 </View>
               </View>
             </View>
@@ -147,24 +139,11 @@ const QnList = () => {
   )
 }
 
-const SeeCommonAnswer = () => {
-    const navigation = useNavigation();
-  const onTopicPressed = async () => {
-    navigation.navigate("ListTopicAns");
-    console.warn("Topic pressed.");
-  }
-  return (
-    <View style={customStyle.commonAns}>      
-                  <Pressable> 
-                  <Text onPress={onTopicPressed} style={{ color:'red'}}>See Common Answer</Text>
-                  </Pressable>
-                </View>
-  )
-}
 
 
 
-const QuestionList = ({ name = 'anonymous', category, dateOfQuestion, input, views, answers }) => {
+
+const AnswerList = ({ name = 'anonymous', category, dateOfQuestion, input, views, answers }) => {
     
     const showMessage = () => {
  
@@ -208,21 +187,12 @@ const QuestionList = ({ name = 'anonymous', category, dateOfQuestion, input, vie
     )
 }
 
-const ListTopicQns = () => {
+const ListTopicAns = () => {
   return (
     <ScrollView>
-      <QuestionHeader />
-          <SeeCommonAnswer />
-          <QnList />
-          <QuestionList
-              name='anynomous'
-              category='Condo Question'
-              dateOfQuestion='15 apr 2022'
-              input='This is a test question, just tyring it out'
-              views='5'
-              answers='2'
-          />
-          
+          <AnswerHeader />
+          <SeeCommonQuestion />
+          <AnsList />
     </ScrollView>
   )
 }
@@ -282,12 +252,12 @@ const customStyle = StyleSheet.create({
         borderRadius: 5,
         alignContent: "center",
         justifyContent: "center",
-  },
-  commonAns: {
+    },
+    commonAns: {
     paddingLeft: 10,
     margin: 10
     }
 
 })
 
-export default ListTopicQns;
+export default ListTopicAns;
