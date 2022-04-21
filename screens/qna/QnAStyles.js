@@ -12,6 +12,7 @@ const customStyles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     height: 400,
+    marginVertical: 5,
   },
   ctaContainer: {
     paddingHorizontal: 20,

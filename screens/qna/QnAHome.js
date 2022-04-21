@@ -19,6 +19,7 @@ import customStyles from "./QnAStyles";
 export default function QnAHome() { 
   const [ loading, setLoading ] = useState(false);
   const [ isModalVisible, setIsModalVisible ] = useState(false);
+  const [ noOfQuestions, setNoOfQuestions ] = useState(0);
 
   // Topic cards function
   const onTopicPressed = async () => {
@@ -100,23 +101,23 @@ export default function QnAHome() {
           </View>
         </ModalPopUp>
 
+        <TopicCard onPress={onTopicPressed}/>
 
-        <View style={customStyles.container}>
-          <TopicCard topic="Condo Questions" noOfQuestions="18856 Questions" onPress={onTopicPressed}/>
-          <TopicCard topic="Home Buying Schemes" noOfQuestions="13860 Questions" onPress={onTopicPressed} />
-          <TopicCard topic="HDB Questions" noOfQuestions="11245 Questions" />
-          <TopicCard topic="Renting Property" noOfQuestions="7286 Questions" />
-          <TopicCard topic="General Questions" noOfQuestions="6195 Questions" />
-          <TopicCard topic="Home Selling" noOfQuestions="3947 Questions" />
-          <TopicCard topic="Home Financing" noOfQuestions="3016 Questions" />
-          <TopicCard topic="Property Agents" noOfQuestions="2386 Questions" />
-        </View>
 
-        <ImageBackground source={require("../../assets/images/askguru/askguru-banner-event-template.jpg")} style={customStyles.bgImage} resizeMode="contain">
-          <View style={[customStyles.ctaContainer, { alignItems: 'center', paddingTop: 60 }]}>
+        <ImageBackground source={require("../../assets/images/askguru/askguru-banner-event-template.jpg")} style={customStyles.bgImage} resizeMode="cover">
+          <View style={[customStyles.ctaContainer, { alignItems: "center", paddingTop: 60 }]}>
             <Text style={[textStyles.bodyText, { flexWrap: "wrap" }]}>Thinking of upgrading your home?</Text>
 
             <PrimaryButton text={loading ? "Loading..." : "Ask Guru Now"} onPress={onAskQnPressed} type="Primary" />
+          </View>
+        </ImageBackground>
+
+        <ImageBackground source={require("../../assets/images/askguru/askguru-portrait-hero-2.jpg")} style={[customStyles.bgImage, { height: 600 }]} resizeMode="cover">
+          <View style={[customStyles.ctaContainer, { alignItems: "flex-start", justifyContent: "flex-start", paddingBottom: 350 }]}>
+            <Text style={[textStyles.headerText, { flexWrap: "wrap", }]}>GuruInsider</Text>
+            <Text style={[textStyles.bodyText, { flexWrap: "wrap" }]}>Rare freehold development in District 10. Launching in 2025.</Text>
+
+            <PrimaryButton text={loading ? "Loading..." : "Enquire Now"} onPress={onAskQnPressed} type="Primary" />
           </View>
         </ImageBackground>
 

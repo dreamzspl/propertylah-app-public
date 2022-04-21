@@ -3,11 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, ScrollView } from
 import Colors from "../../constants/colors";
 
 
-const CATEGORIES = [ "🏢 Condo Questions", "👪 Home Buying", "🏙️ HDB", "🛏️ Renting", "💬 General", "💰 Home Selling", "💲 Home Financing", "👩🏻‍💼 Property Agents"]
+const CATEGORIES = [ "🏢 Condo Questions", "👪 Home Buying", "🏙️ HDB", "🛏️ Renting", "💬 General", "💰 Home Selling", "💲 Home Financing", "👩🏻‍💼 Property Agents" ]
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-const ModalPicker = (props, { onPress, value }) => {
+const ModalPicker = (props) => {
 
   const onPressItem = (option) => {
     props.changeModalVisibility(false);
