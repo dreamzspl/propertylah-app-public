@@ -65,7 +65,10 @@ function AuthenticatedStack() {
 function Logout({ navigation }) {
   const authCtx = useContext(AuthContext);
 
-  authCtx.logout();
+  useEffect(() => {
+    authCtx.logout();
+  }, []);
+
   // FIXME: logout bug - screen is not unloaded
   // load a modal/actual screen here instead
   // useEffect(() => {
