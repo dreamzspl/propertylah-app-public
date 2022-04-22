@@ -24,7 +24,12 @@ function CustomDrawer(props) {
             />
             <View style={{ marginLeft: 20 }}>
               <Text style={customStyles.nameText}>{authCtx.firstName}</Text>
-              <View style={customStyles.roleContainer}>
+              <View
+                style={[
+                  customStyles.roleContainer,
+                  { backgroundColor: Colors[authCtx.role] },
+                ]}
+              >
                 <Text style={customStyles.roleText}>{authCtx.role}</Text>
               </View>
             </View>
@@ -80,6 +85,6 @@ const customStyles = StyleSheet.create({
   roleText: {
     fontFamily: "rubik-bold",
     textAlign: "center",
-    color: Colors.primary500,
+    color: Colors.grey500,
   },
 });

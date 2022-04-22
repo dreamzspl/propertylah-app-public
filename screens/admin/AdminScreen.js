@@ -49,7 +49,12 @@ function Screen1({ navigation }) {
         <Text style={[textStyles.bodyText, helperStyles.mb5]}>
           {userData.item.email}
         </Text>
-        <View style={styles.roleContainer}>
+        <View
+          style={[
+            styles.roleContainer,
+            { backgroundColor: Colors[userData.item.role] },
+          ]}
+        >
           <Text style={styles.roleText}>{userData.item.role}</Text>
         </View>
       </View>
@@ -62,6 +67,7 @@ function Screen1({ navigation }) {
       <Text style={textStyles.bodyText}>Pull to refresh list.</Text>
       {users.length > 0 && (
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={users}
           renderItem={renderUser}
           refreshing={refreshing}
