@@ -236,8 +236,8 @@ const ListTopicQns = ({ navigation, route }) => {
   return (
     <ScrollView>
       <QuestionHeader />
-          <SeeCommonAnswer />
-          <QnList />
+      <SeeCommonAnswer />
+      <QnList navigation={navigation} />
           
     </ScrollView>
   )

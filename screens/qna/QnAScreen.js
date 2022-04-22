@@ -19,8 +19,8 @@ const QnAScreen = () => {
       screenOptions={stackNavigatorScreenOptions}
     >
       {/* insert this within <Stack.Navigator> above to hide the header ---> screenOptions={{ headerShown: false }} */}
-      <Stack.Screen name="QnAHome" component={QnAHome} options={stackInitialScreenOptions} />
-      <Stack.Screen name="ListTopicQns" component={ListTopicQns} />
+      <Stack.Screen name="AskGuru" component={QnAHome} options={stackInitialScreenOptions} />
+      <Stack.Screen name="List of Questions" component={ListTopicQns} />
       <Stack.Screen name="QnAQnsAnswer" component={QnAQnsAnswer}  />
       <Stack.Screen name="List of Answers" component={ListTopicAns} />
     </Stack.Navigator> 
