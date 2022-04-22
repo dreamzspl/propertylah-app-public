@@ -130,7 +130,7 @@ function Navigation() {
             name="ManageProperty"
             component={PropertyCRUD}
             options={{
-              title: "My Listed Properties",
+              title: "My Properties",
               drawerIcon: ({ color, size }) => (
                 <Ionicons color={color} size={size} name="albums-outline" />
               ),

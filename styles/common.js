@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
   roleText: {
     fontFamily: "rubik-bold",
     textAlign: "center",
-    color: Colors.primary500,
+    color: Colors.grey500,
   },
 });
 

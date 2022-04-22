@@ -24,7 +24,12 @@ function CustomDrawer(props) {
             />
             <View style={{ marginLeft: 20 }}>
               <Text style={customStyles.nameText}>{authCtx.firstName}</Text>
-              <View style={customStyles.roleContainer}>
+              <View
+                style={[
+                  customStyles.roleContainer,
+                  { backgroundColor: Colors[authCtx.role] },
+                ]}
+              >
                 <Text style={customStyles.roleText}>{authCtx.role}</Text>
               </View>
             </View>
@@ -46,9 +51,10 @@ function CustomDrawer(props) {
           source={require("../../assets/images/nav/propertylahlogoV2.png")}
           style={{ width: 93.6, height: 53.6, marginRight: 20 }}
         />
-        <Text style={{ fontFamily: "rubik", fontSize: 14 }}>
-          PropertyLah App v1.0.0
-        </Text>
+        <View>
+          <Text style={{ fontFamily: "rubik", fontSize: 14 }}>PropertyLah</Text>
+          <Text style={{ fontFamily: "rubik", fontSize: 14 }}>App v1.0.0</Text>
+        </View>
       </View>
     </View>
   );
@@ -80,6 +86,6 @@ const customStyles = StyleSheet.create({
   roleText: {
     fontFamily: "rubik-bold",
     textAlign: "center",
-    color: Colors.primary500,
+    color: Colors.grey500,
   },
 });
