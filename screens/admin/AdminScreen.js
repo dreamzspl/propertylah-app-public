@@ -68,12 +68,6 @@ function Screen1({ navigation }) {
           onRefresh={handleRefresh}
         />
       )}
-      <Text
-        style={[textStyles.bodyText, customStyles.customText]}
-        onPress={() => navigation.navigate("Sample2")}
-      >
-        Go to 2
-      </Text>
     </View>
   );
 }
